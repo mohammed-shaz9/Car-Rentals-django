@@ -81,15 +81,20 @@ def register(request):
 # Login Page
 def signin(request):
     # DIRECT LOGIN BYPASS
+    # DIRECT LOGIN BYPASS
     try:
         user = User.objects.get(username='testuser')
-        login(request, user)
-        messages.success(request, "Login successful!")
-        print("LOGGED IN SUCCESSFULLY WITH TEST USER")
-        return redirect('vehicles')
+        print("Test user already exists. Logging in...")
     except User.DoesNotExist:
-        messages.error(request, "Test user does not exist.")
-        return redirect('register')
+        print("Test user does not exist. Creating test user...")
+        user = User.objects.create_user(username='testuser', email='test@example.com', password='test123')
+        user.save()
+        messages.success(request, "Test user created successfully!")
+
+    login(request, user)
+    messages.success(request, "Login successful!")
+    print("LOGGED IN SUCCESSFULLY WITH TEST USER")
+    return redirect('vehicles')
 
 # Logout
 def signout(request):

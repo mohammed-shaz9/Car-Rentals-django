@@ -11,6 +11,7 @@ urlpatterns = [
     path("signin", views.signin, name="signin"),
     path("signout",views.signout,name = "signout"),
     path("bill",views.order,name = "bill"),
+    path("cars",views.car_list,name = "cars"),
     path("contact",views.contact,name = 'contact'),
     # path("vehicles",views.Order,name = 'vehicles'),
     # path("bike",views.bike,name = 'bike'),
