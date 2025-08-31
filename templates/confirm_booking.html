@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Confirmed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        img {
+            margin: 40px auto 20px;
+            display: block;
+            max-width: 80%;
+            height: auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            display: inline-block;
+            margin-top: 30px;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your car was booked successfully!</h1>
+    <p>Thank you for choosing our service.</p>
+
+    <!-- ✅ Image clearly placed below -->
+    <img src="{% static 'background.jpg' %}" alt="Booking Confirmation">
+
+    <a href="{% url 'home' %}">Return to Home</a>
+</body>
+</html>

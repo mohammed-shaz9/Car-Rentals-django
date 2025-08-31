@@ -1,0 +1,252 @@
+/* Modern Gradient Backgrounds */
+.gradient-custom-2 {
+    background: linear-gradient(45deg, #00dbde, #fc00ff);
+    background-size: 200% 200%;
+    animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Glass Effect Cards */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Neon Buttons */
+.neon-button {
+    background: linear-gradient(90deg, #ff00cc, #333399);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255, 0, 204, 0.5);
+}
+
+.neon-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(255, 0, 204, 0.8);
+}
+
+/* Hero Section Gradient */
+.hero-gradient {
+    background: linear-gradient(
+        135deg,
+        #1a2a6c,
+        #b21f1f,
+        #fdbb2d
+    );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+/* Card Hover Effects */
+.hover-card {
+    transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Text Gradient */
+.gradient-text {
+    background: linear-gradient(90deg, #00dbde, #fc00ff, #00dbde);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: text-shine 5s linear infinite;
+}
+
+@keyframes text-shine {
+    to { background-position: 200% center; }
+}
+
+/* Floating Animation */
+.float-element {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Modern Form Inputs */
+.modern-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 12px 20px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.modern-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00dbde;
+    box-shadow: 0 0 20px rgba(0, 219, 222, 0.3);
+}
+
+/* Keep existing print styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #printSection,
+    #printSection * {
+        visibility: visible;
+    }
+
+    #printSection {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+/* Modern Body Background */
+body {
+    background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    min-height: 100vh;
+}
+
+/* Success Message Animation */
+.success-message {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Add these new styles */
+.carousel-item img {
+    filter: brightness(0.8);
+    transition: filter 0.3s ease;
+}
+
+.carousel-item img:hover {
+    filter: brightness(1);
+}
+
+.img-thumbnail {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+.container {
+    padding: 20px;
+}
+
+/* Update body style */
+body {
+    background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Navbar Styling */
+.navbar {
+    background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, #00dbde, #fc00ff);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.navbar-toggler {
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.gradient-nav {
+    background: linear-gradient(90deg, #4834d4, #686de0);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 15px rgba(72, 52, 212, 0.3);
+}
+
+.gradient-body {
+    background: linear-gradient(135deg, #30336b, #130f40);
+    min-height: 100vh;
+    color: white;
+}
+
+.glow-text {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    transition: all 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: white !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    transform: translateY(-1px);
+}
+
+    .card-text {
+        color:#0f2027; 
+}
