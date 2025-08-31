@@ -1,0 +1,2 @@
+# Car-Rentals-django
+🚗 Car Rentals and Leasing is a Django-based web application that allows users to seamlessly , book, and manage cars online. With a responsive UI built using Django, HTML, and CSS, it provides a complete end-to-end rental workflow, from vehicle search and selection to booking confirmation and management, ensuring a smooth and efficient experience.
