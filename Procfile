@@ -1,1 +1,1 @@
-web: gunicorn vehicles.wsgi:application --log-file -
+web: gunicorn vehicles.wsgi:application --bind 0.0.0.0:10000
