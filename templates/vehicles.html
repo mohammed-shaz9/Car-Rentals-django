@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Cars{% endblock title %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+{% block body %}
+<main role="main" style="background-color: rgb(200, 200, 200)">
+    <section class="jumbotron text-center" style="background-color: rgb(5, 5, 5)">
+        <div class="container">
+            <h1 class="jumbotron-heading" style="font-size:50px">Welcome {{ request.user }} !!</h1>
+            <p style="font-size:25px; margin-top:30px">Get wide varieties of cars at affordable prices!!</p>
+
+            <!-- Category Filter Buttons -->
+            <div class="btn-group mt-4" role="group" aria-label="Car Category Filter">
+                <a href="{% url 'cars' %}" class="btn btn-outline-light">All</a>
+                <a href="{% url 'cars' %}?category=luxury" class="btn btn-outline-warning">Luxury</a>
+                <a href="{% url 'cars' %}?category=suv" class="btn btn-outline-info">SUV</a>
+                <a href="{% url 'cars' %}?category=pickup" class="btn btn-outline-success">Pickup Truck</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light" id="1">
+        <div class="container" id="2">
+            <div class="row" id="3">
+                {% for i in car %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="/media/{{ i.image }}" alt="car" class="d-block w-100" height="225">
+                        <div class="card-body">
+                            <h4 style="text-align:center; color:Black">{{ i.car_name }}</h4>
+                            <p style="color:Black" class="card-text">{{ i.car_desc }}</p>
+                            <p id="{{ i.car_id }}" style="color:Black">Price per Day: ₹{{ i.price }}</p>
+                            <div class="d-flex justify-content-between align-items-center" id="7">
+                                <div class="btn-group" id="8">
+                                    <a type="button" class="btn btn-sm btn-dark" href="/bill?car_name={{ i.car_name }}">RENT</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No cars available in this category right now.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock body %}

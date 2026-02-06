@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us{% endblock title %}
+
+{% block body %}
+
+  <div class="jumbotron p-5 text-white rounded bg-info" style="height:560px ">
+    <div class="col-md-6 px-0" style="margin:95px">
+      <h1 class="display-4 " style="font-size:90px">About Us!</h1>
+      <p class="lead my-3" style="">NovaFleet was established in 2012 and digitally expanded in 2018. After more than 10 years in business, NovaFleet is ready to meet your expectations with our fully renewed fleet of vehicles.</p>
+      {% comment %} <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p> {% endcomment %}
+      <a class="btn btn-dark btn-lg" href="#123" role="button">Learn more</a>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15215.545831781512!2d78.44409934804847!3d17.56059168370006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb8f9f22b759d7%3A0x88754216b1dfba4d!2sMaisammaguda%2C%20Dulapally%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1744010375831!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div style="background: linear-gradient(to right, #007BFF, #00BFFF); padding: 20px; border-radius: 15px; margin: 30px 0;">
+      <h2 style="color: white;">About NovaFleet</h2>
+      <p style="color:rgb(13, 13, 14); font-size: 18px;">NovaFleet is your trusted partner for car rentals, offering a wide range of vehicles to suit your needs. Whether you're planning a road trip, a business trip, or just need a reliable car for daily use, we have you covered.</p>
+      <p style="color:rgb(16, 17, 17); font-size: 18px;">Our mission is to provide top-notch service with a focus on safety, affordability, and customer satisfaction. With NovaFleet, you can enjoy a seamless and hassle-free car rental experience.</p>
+      <p style="color:rgb(5, 5, 5); font-size: 18px;">Contact us today to learn more about our services and how we can help make your journey memorable!</p>
+    </div>
+    
+</div>
+
+  <div class="p-3 mb-2  text-info" id="123">
+    <div class="row m-5" >
+        <div class="container fluid px-0"><h1 class="my-3 text-center">Why Choose Us?</h1></div>
+        <div class="col-xl-4">
+          <div class="container fluid px-0" >
+            {%load static%}
+            <img src = "{%static "trust.jpg"%}" width="300" height="300"  style=" background-color: white;border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left:60px" >
+          </div>
+          <h2 class="hd my-2 " style=" text-align:center">Safe</h2>
+          <p style="font-size:20px; text-align:center">Most trustworthy website for renting a vehicle in World. All the vehicles are well maintained and in good condition. Servicing is done after every two weeks.</p>
+        
+        </div><!-- /.col-lg-4 -->
+        <div class="col-xl-4">
+          <div class="container" >
+            {%load static%}
+            <img src = "{%static "affordable.jpg"%}" width="300" height="300"  style=" background-color: white;border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left:60px" >
+          </div>
+          <h2 class="hd my-2 " style=" text-align:center">Affordable Prices</h2>
+          <p style="font-size:20px ; text-align:center">All the rent are in affordable prices. If there is a problem in the vehicle, there is a return back policy. Payment can be made online safely </p>
+         
+        </div><!-- /.col-lg-4 -->
+        <div class="col-xl-4">
+          <div class="container-center" >
+            {%load static%}
+            <img src = "{%static "car-wash.png"%}" width="300" height="300"  style=" background-color: white;border-radius: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-left:60px" >
+          </div>
+          <h2 class="hd my-2" style=" text-align:center">Hygienic</h2>
+          <p style="font-size:20px ; text-align:center">Your comfort is our priority! All the vehicles are well-maintained and hygienic. </p>
+        </div><!-- /.col-lg-4 -->
+    </div>
+    </div> 
+{% endblock body %}
