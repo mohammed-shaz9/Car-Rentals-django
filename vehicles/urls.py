@@ -25,12 +25,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='home')
 ] 
 
-from django.views.static import serve
-from django.urls import re_path
-
-urlpatterns += [
-    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "CarZest Admin"
 admin.site.site_title = "CarZest Admin Portal"
