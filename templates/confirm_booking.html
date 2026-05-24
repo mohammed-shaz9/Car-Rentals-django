@@ -13,21 +13,32 @@
                     </div>
                     <h1>Booking Confirmed!</h1>
                     <p class="lead">Thank you for choosing NovaFleet.</p>
-                    
+
                     {% if booking %}
                     <div class="booking-summary mt-4">
                         <h4>Booking Summary</h4>
-                        <p><strong>Car:</strong> {{ booking.cars }}</p>
+                        <p><strong>Order #:</strong> {{ booking.order_id }}</p>
+                        <p><strong>Car:</strong> {{ booking.car_name }}</p>
                         <p><strong>Days:</strong> {{ booking.days_for_rent }}</p>
                         <p><strong>Pickup:</strong> {{ booking.date }}</p>
                         <p><strong>From:</strong> {{ booking.loc_from }} → <strong>To:</strong> {{ booking.loc_to }}</p>
+                        <p><strong>Price per day:</strong> ₹{{ booking.price_per_day }}</p>
+                        <p><strong>Total:</strong> <span style="color: var(--gold); font-size: 1.5rem;">₹{{ booking.total_price }}</span></p>
+                    </div>
+
+                    <div class="mt-3">
+                        <p>Customer: {{ booking.name }}<br>{{ booking.email }} | {{ booking.phone }}</p>
+                    </div>
+                    {% else %}
+                    <div class="mt-4">
+                        <p>No recent bookings found. <a href="/vehicles">Browse our fleet</a> to book a car.</p>
                     </div>
                     {% endif %}
 
                     <div class="mt-4">
                         <p>A confirmation email has been sent to your registered email address.</p>
                     </div>
-                    
+
                     <div class="mt-5">
                         <a href="{% url 'home' %}" class="btn-auth">
                             <i class="fas fa-home mr-2"></i>Return to Home

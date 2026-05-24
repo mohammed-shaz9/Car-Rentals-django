@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+        .container { max-width: 600px; margin: 20px auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; text-align: center; }
+        .header h1 { color: #d4af37; margin: 0; font-size: 28px; }
+        .header p { color: #ccc; margin: 5px 0 0; }
+        .body { padding: 30px; }
+        .body h2 { color: #1a1a2e; margin-top: 0; }
+        .details { background: #f8f8f8; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .details table { width: 100%; border-collapse: collapse; }
+        .details td { padding: 10px; border-bottom: 1px solid #e0e0e0; }
+        .details td:first-child { font-weight: 600; color: #555; width: 40%; }
+        .details td:last-child { color: #1a1a2e; }
+        .total { font-size: 24px; color: #d4af37; font-weight: 700; text-align: center; padding: 15px; }
+        .footer { background: #1a1a2e; color: #aaa; padding: 20px; text-align: center; font-size: 12px; }
+        .footer a { color: #d4af37; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NovaFleet</h1>
+            <p>Premium Car Rentals</p>
+        </div>
+        <div class="body">
+            <h2>Booking Confirmed!</h2>
+            <p>Dear <strong>{{ name }}</strong>,</p>
+            <p>Your booking has been confirmed. Here are the details:</p>
+            <div class="details">
+                <table>
+                    <tr><td>Car</td><td>{{ car_name }}</td></tr>
+                    <tr><td>Rental Days</td><td>{{ days }}</td></tr>
+                    <tr><td>Price Per Day</td><td>₹{{ price_per_day }}</td></tr>
+                    <tr><td>Pickup Date</td><td>{{ date }}</td></tr>
+                    <tr><td>From Location</td><td>{{ loc_from }}</td></tr>
+                    <tr><td>To Location</td><td>{{ loc_to }}</td></tr>
+                </table>
+            </div>
+            <div class="total">Total Amount: ₹{{ total }}</div>
+            <p>Please carry a valid driving license and ID proof at the time of pickup. Our team will contact you shortly for delivery coordination.</p>
+            <p>Drive safe!<br>— The NovaFleet Team</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 NovaFleet. All rights reserved.</p>
+            <p><a href="https://novafleet.in">www.novafleet.in</a> | Hyderabad, Telangana</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -6,12 +6,14 @@
 <section class="vehicles-header">
     <div class="container text-center">
         <h1>Our Premium Fleet</h1>
-        <p>Welcome, {{ request.user }}! Choose your perfect ride</p>
+        <p>Choose your perfect ride from our carefully maintained collection</p>
         <div class="filter-buttons mt-4">
-            <a href="{% url 'cars' %}" class="btn-filter active">All</a>
-            <a href="{% url 'cars' %}?category=luxury" class="btn-filter">Luxury</a>
-            <a href="{% url 'cars' %}?category=suv" class="btn-filter">SUV</a>
-            <a href="{% url 'cars' %}?category=pickup" class="btn-filter">Pickup</a>
+            <a href="{% url 'cars' %}" class="btn-filter {% if not request.GET.category %}active{% endif %}">All</a>
+            <a href="{% url 'cars' %}?category=sedan" class="btn-filter {% if request.GET.category == 'sedan' %}active{% endif %}">Sedan</a>
+            <a href="{% url 'cars' %}?category=suv" class="btn-filter {% if request.GET.category == 'suv' %}active{% endif %}">SUV</a>
+            <a href="{% url 'cars' %}?category=luxury" class="btn-filter {% if request.GET.category == 'luxury' %}active{% endif %}">Luxury</a>
+            <a href="{% url 'cars' %}?category=hatchback" class="btn-filter {% if request.GET.category == 'hatchback' %}active{% endif %}">Hatchback</a>
+            <a href="{% url 'cars' %}?category=pickup" class="btn-filter {% if request.GET.category == 'pickup' %}active{% endif %}">Pickup</a>
         </div>
     </div>
 </section>

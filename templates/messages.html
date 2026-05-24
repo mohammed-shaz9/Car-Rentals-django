@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <i class="fas fa-{% if message.tags == 'alert-success' %}check-circle{% elif message.tags == 'alert-error' %}times-circle{% else %}info-circle{% endif %} mr-2"></i>
+        <i class="fas fa-{% if 'success' in message.tags %}check-circle{% elif 'error' in message.tags or 'danger' in message.tags %}times-circle{% else %}info-circle{% endif %} mr-2"></i>
         {{ message }}
     </div>
 </div>

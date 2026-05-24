@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock title %}
+{% load static %}
 
 {% block body %}
-{% include 'messages.html' %}
-
 <div id="heroCarousel" class="carousel slide hero-carousel" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#heroCarousel" data-slide-to="0" class="active"></li>
@@ -17,11 +16,7 @@
                     <div class="hero-content">
                         <h1 class="hero-title">Drive Your Dream</h1>
                         <p class="hero-subtitle">Experience luxury and performance with every mile</p>
-                        {% if user.is_authenticated %}
                         <a href="/vehicles" class="btn-hero">Browse Vehicles <i class="fas fa-arrow-right ml-2"></i></a>
-                        {% else %}
-                        <a href="/signin" class="btn-hero">Get Started <i class="fas fa-arrow-right ml-2"></i></a>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -60,47 +55,103 @@
 <section class="section-dark text-center">
     <div class="container">
         <h2 class="section-title">Welcome to NovaFleet</h2>
-        <p class="section-subtitle">Wide range of cars from mini size to luxury vehicles available at affordable prices. Put on your seatbelt and get ready to enjoy the journey with comfort!</p>
-        <blockquote class="quote-block">
-            <i class="fas fa-quote-left quote-icon"></i>
-            "The world is a book and those who do not travel read only one page." — Saint Augustine
-        </blockquote>
+        <p class="section-subtitle">Hyderabad's most trusted car rental service. From hatchbacks to luxury sedans and SUVs, we offer the widest range of well-maintained vehicles at competitive prices. Drive with confidence.</p>
+        <div class="row mt-5">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-car-side fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h3 class="stat-number" data-target="25">0+</h3>
+                    <p>Car Models</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-users fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h3 class="stat-number" data-target="15000">0+</h3>
+                    <p>Happy Customers</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-calendar-check fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h3 class="stat-number" data-target="12">0+</h3>
+                    <p>Years Experience</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <i class="fas fa-road fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h3 class="stat-number" data-target="500000">0+</h3>
+                    <p>Km Driven</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
+{% if featured_cars %}
 <section class="section-gallery">
     <div class="container">
-        <h2 class="section-title">Car Gallery</h2>
+        <h2 class="section-title">Featured Vehicles</h2>
         <div class="row">
-            {% load static %}
+            {% for car in featured_cars %}
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{% static "v1.jpg" %}" alt="Car" class="gallery-img">
+                <div class="car-card">
+                    <div class="car-image">
+                        <img src="{{ car.image.url }}" alt="{{ car.car_name }}">
+                        <div class="car-overlay">
+                            <a href="/bill?car_name={{ car.car_name }}" class="btn-rent">Rent Now <i class="fas fa-arrow-right ml-2"></i></a>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <h3>{{ car.car_name }}</h3>
+                        <p>{{ car.car_desc }}</p>
+                        <div class="car-price">
+                            <span class="price">₹{{ car.price }}</span>
+                            <span class="per-day">/ day</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{% static "car1.jpg" %}" alt="Car" class="gallery-img">
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="/vehicles" class="btn-hero">View Full Fleet <i class="fas fa-arrow-right ml-2"></i></a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section-features py-5">
+    <div class="container">
+        <h2 class="section-title">Why Choose NovaFleet?</h2>
+        <div class="row mt-4">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card text-center p-4">
+                    <i class="fas fa-shield-alt fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h5>Safe & Insured</h5>
+                    <p class="small">All vehicles fully insured and regularly serviced</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{% static "car3.webp" %}" alt="Car" class="gallery-img">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card text-center p-4">
+                    <i class="fas fa-tag fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h5>Best Prices</h5>
+                    <p class="small">Transparent pricing with no hidden charges</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{% static "car2.jpg" %}" alt="Car" class="gallery-img">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card text-center p-4">
+                    <i class="fas fa-headset fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h5>24/7 Support</h5>
+                    <p class="small">Round-the-clock customer assistance</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{% static "car5.jpg" %}" alt="Car" class="gallery-img">
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-card">
-                    <img src="{% static "car4.jpg" %}" alt="Car" class="gallery-img">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="feature-card text-center p-4">
+                    <i class="fas fa-hand-sparkles fa-3x mb-3" style="color: var(--gold);"></i>
+                    <h5>Sanitized Cars</h5>
+                    <p class="small">Deep cleaned and sanitized before every rental</p>
                 </div>
             </div>
         </div>
@@ -111,13 +162,31 @@
 {% block scripts %}
 <script>
     gsap.from('.hero-content', { duration: 1.5, y: 100, opacity: 0, ease: 'power4.out' });
-    gsap.from('.section-title', {
-        scrollTrigger: { trigger: '.section-title', start: 'top 80%' },
-        duration: 1, y: 50, opacity: 0, ease: 'power3.out'
+
+    const counters = document.querySelectorAll('.stat-number');
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText.replace('+', '');
+            const increment = target / 200;
+            if (count < target) {
+                counter.innerText = Math.ceil(count + increment) + '+';
+                setTimeout(updateCount, 20);
+            } else {
+                counter.innerText = target.toLocaleString() + '+';
+            }
+        };
+        updateCount();
     });
-    gsap.from('.gallery-card', {
+
+    gsap.from('.car-card', {
         scrollTrigger: { trigger: '.section-gallery', start: 'top 80%' },
         duration: 0.8, y: 60, opacity: 0, stagger: 0.15, ease: 'power3.out'
+    });
+
+    gsap.from('.feature-card', {
+        scrollTrigger: { trigger: '.section-features', start: 'top 85%' },
+        duration: 0.8, y: 40, opacity: 0, stagger: 0.1, ease: 'power3.out'
     });
 </script>
 {% endblock scripts %}

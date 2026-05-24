@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block body %}
-{% include 'messages.html' %}
 <div class="booking-section">
     <div class="container">
         <div class="row justify-content-center">
@@ -16,7 +15,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-user mr-2"></i>Full Name</label>
-                                    <input type="text" class="form-control modern-input" id="billname" name="billname" required>
+                                    <input type="text" class="form-control modern-input" id="billname" name="billname" value="{{ request.user.get_full_name }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -30,19 +29,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-phone mr-2"></i>Phone Number</label>
-                                    <input type="tel" class="form-control modern-input" id="billphone" name="billphone" required>
+                                    <input type="tel" class="form-control modern-input" id="billphone" name="billphone" value="{{ user_profile.phone|default:'' }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-city mr-2"></i>City</label>
-                                    <input type="text" class="form-control modern-input" id="billcity" name="billcity" placeholder="Hyderabad" required>
+                                    <input type="text" class="form-control modern-input" id="billcity" name="billcity" value="{{ user_profile.city|default:'' }}" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-map-marker-alt mr-2"></i>Address</label>
-                            <input type="text" class="form-control modern-input" id="billaddress" name="billaddress" required>
+                            <input type="text" class="form-control modern-input" id="billaddress" name="billaddress" value="{{ user_profile.address|default:'' }}" required>
                         </div>
                         <hr class="divider-light">
                         <h4 class="mb-3"><i class="fas fa-car mr-2"></i>Car Selection</h4>
@@ -50,17 +49,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Select Car</label>
-                                    <select id="cars11" name="cars11" class="form-control modern-input" onchange="updateCarPrice()" required>
+                                    <select id="car_id" name="car_id" class="form-control modern-input" onchange="updateCarPrice()" required>
                                         <option value="">Choose a car...</option>
-                                        <option value="Renault" data-price="2000" {% if request.GET.car_name == 'Renault' %}selected{% endif %}>Renault - ₹2000/day</option>
-                                        <option value="Alto 800" data-price="700" {% if request.GET.car_name == 'Alto 800' %}selected{% endif %}>Alto 800 - ₹700/day</option>
-                                        <option value="Innova Crysta" data-price="3500" {% if request.GET.car_name == 'Innova Crysta' %}selected{% endif %}>Innova Crysta - ₹3500/day</option>
-                                        <option value="Chevy Traverse" data-price="3000" {% if request.GET.car_name == 'Chevy Traverse' %}selected{% endif %}>Chevy Traverse - ₹3000/day</option>
-                                        <option value="BMW X5" data-price="10000" {% if request.GET.car_name == 'BMW X5' %}selected{% endif %}>BMW X5 - ₹10000/day</option>
-                                        <option value="Honda City" data-price="2500" {% if request.GET.car_name == 'Honda City' %}selected{% endif %}>Honda City - ₹2500/day</option>
-                                        <option value="Mercedes Benz" data-price="40000" {% if request.GET.car_name == 'Mercedes Benz' %}selected{% endif %}>Mercedes Benz - ₹40000/day</option>
-                                        <option value="Swift Dezire" data-price="1000" {% if request.GET.car_name == 'Swift Dezire' %}selected{% endif %}>Swift Dezire - ₹1000/day</option>
-                                        <option value="KIA" data-price="800" {% if request.GET.car_name == 'KIA' %}selected{% endif %}>KIA - ₹800/day</option>
+                                        {% for car in cars %}
+                                        <option value="{{ car.id }}" data-price="{{ car.price }}" data-name="{{ car.car_name }}" {% if selected_car and selected_car.id == car.id %}selected{% endif %}>
+                                            {{ car.car_name }} - ₹{{ car.price }}/day
+                                        </option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -73,7 +68,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Pickup Date</label>
-                                    <input type="date" class="form-control modern-input" id="date" name="date" required>
+                                    <input type="date" class="form-control modern-input" id="date" name="date" min="{% now 'Y-m-d' %}" required>
                                 </div>
                             </div>
                         </div>
@@ -81,13 +76,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin mr-2"></i>From Location</label>
-                                    <input type="text" class="form-control modern-input" id="fl" name="fl" required>
+                                    <input type="text" class="form-control modern-input" id="fl" name="fl" placeholder="e.g., Hyderabad Airport" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin mr-2"></i>To Location</label>
-                                    <input type="text" class="form-control modern-input" id="tl" name="tl" required>
+                                    <input type="text" class="form-control modern-input" id="tl" name="tl" placeholder="e.g., Hitech City" required>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +91,7 @@
                         </div>
                         <div class="text-center mt-4">
                             <button type="button" class="btn-outline mr-3" onclick="calculateTotal()">
-                                <i class="fas fa-calculator mr-2"></i>Calculate
+                                <i class="fas fa-calculator mr-2"></i>Calculate Total
                             </button>
                             <button type="submit" class="btn-auth">
                                 <i class="fas fa-check-circle mr-2"></i>Confirm Booking
@@ -113,25 +108,24 @@
 {% block scripts %}
 <script>
 function updateCarPrice() {
-    const select = document.getElementById('cars11');
     calculateTotal();
 }
 
 function calculateTotal() {
-    const select = document.getElementById('cars11');
+    const select = document.getElementById('car_id');
     const days = document.getElementById('dayss').value;
     const selectedOption = select.options[select.selectedIndex];
-    
+
     if (select.value && days) {
         const price = parseInt(selectedOption.dataset.price);
         const total = price * parseInt(days);
-        document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString();
+        document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString('en-IN');
         document.getElementById('totalSection').style.display = 'block';
     }
 }
 
 function validateForm() {
-    const requiredFields = ['billname', 'billemail', 'billphone', 'billaddress', 'billcity', 'cars11', 'dayss', 'date', 'fl', 'tl'];
+    const requiredFields = ['billname', 'billemail', 'billphone', 'billaddress', 'billcity', 'car_id', 'dayss', 'date', 'fl', 'tl'];
     for (let id of requiredFields) {
         const field = document.getElementById(id);
         if (!field.value.trim()) {
@@ -142,6 +136,21 @@ function validateForm() {
     }
     return confirm('Confirm your booking?');
 }
+
+(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const carName = urlParams.get('car_name');
+    if (carName) {
+        const select = document.getElementById('car_id');
+        for (let opt of select.options) {
+            if (opt.dataset.name === carName) {
+                opt.selected = true;
+                calculateTotal();
+                break;
+            }
+        }
+    }
+})();
 
 gsap.from('.booking-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
 </script>
