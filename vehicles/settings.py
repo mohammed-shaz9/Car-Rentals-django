@@ -6,7 +6,9 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
-DEBUG = config('DEBUG', default=False, cast=bool)
+_DEBUG_RAW = str(config('DEBUG', default='False')).strip().lower()
+# Accept common values ("true", "1", "yes", "on") and treat anything else (e.g. "release") as False.
+DEBUG = _DEBUG_RAW in {'1', 'true', 'yes', 'y', 'on', 'debug'}
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*').split(',')
 
 INSTALLED_APPS = [
@@ -17,9 +19,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.sites',
     'social_django',
     'MyApp.apps.MyappConfig',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,8 +82,14 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_OAUTH2_KEY', default='')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_OAUTH2_SECRET', default='')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = (
+    config('GOOGLE_OAUTH2_KEY', default='').strip()
+    or config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', default='').strip()
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = (
+    config('GOOGLE_OAUTH2_SECRET', default='').strip()
+    or config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', default='').strip()
+)
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_URL = '/signin'
 

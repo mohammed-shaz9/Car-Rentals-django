@@ -1,92 +1,317 @@
-{% extends 'base.html' %}
-{% block title %}Our Fleet{% endblock %}
-{% load static humanize %}
+{% load humanize %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>NovaFleet - Vehicle Fleet</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#574500",
+              "inverse-primary": "#735c00",
+              "surface-tint": "#e9c349",
+              "on-tertiary": "#303030",
+              "on-secondary-fixed-variant": "#474746",
+              "secondary-container": "#474746",
+              "on-primary": "#3c2f00",
+              "on-surface": "#e5e2e1",
+              "inverse-surface": "#e5e2e1",
+              "inverse-on-surface": "#313030",
+              "secondary-fixed": "#e5e2e1",
+              "primary-fixed": "#ffe088",
+              "on-surface-variant": "#d0c5af",
+              background: "#131313",
+              "tertiary-fixed": "#e4e2e1",
+              "on-primary-fixed": "#241a00",
+              "on-secondary": "#313030",
+              "surface-container-low": "#1c1b1b",
+              "on-primary-container": "#554300",
+              "on-tertiary-container": "#454545",
+              "on-secondary-fixed": "#1c1b1b",
+              "primary-fixed-dim": "#e9c349",
+              primary: "#f2ca50",
+              "surface-container-lowest": "#0e0e0e",
+              outline: "#99907c",
+              "surface-bright": "#3a3939",
+              tertiary: "#d0cdcd",
+              "secondary-fixed-dim": "#c8c6c5",
+              "primary-container": "#d4af37",
+              "surface-container": "#201f1f",
+              "tertiary-fixed-dim": "#c8c6c6",
+              "on-background": "#e5e2e1",
+              "surface-variant": "#353534",
+              "surface-dim": "#131313",
+              "on-error-container": "#ffdad6",
+              secondary: "#c8c6c5",
+              "surface-container-high": "#2a2a2a",
+              "on-error": "#690005",
+              "on-tertiary-fixed-variant": "#474747",
+              "error-container": "#93000a",
+              "outline-variant": "#4d4635",
+              "surface-container-highest": "#353534",
+              surface: "#131313",
+              "tertiary-container": "#b4b2b2",
+              error: "#ffb4ab",
+              "on-tertiary-fixed": "#1b1c1c",
+              "on-secondary-container": "#b7b5b4",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "stack-lg": "48px",
+              "margin-desktop": "64px",
+              "container-max": "1440px",
+              "stack-md": "24px",
+              "margin-tablet": "32px",
+              "margin-mobile": "20px",
+              "stack-xl": "80px",
+              unit: "8px",
+              "stack-sm": "12px",
+              "stack-xs": "4px",
+              gutter: "24px",
+            },
+            fontFamily: {
+              display: ["Poppins"],
+              body: ["Inter"],
+            },
+            fontSize: {
+              "display-lg": ["64px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+              "display-lg-mobile": ["40px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+              "headline-xl": ["48px", { lineHeight: "1.2", fontWeight: "600" }],
+              "headline-lg": ["32px", { lineHeight: "1.3", fontWeight: "600" }],
+              "headline-md": ["24px", { lineHeight: "1.4", fontWeight: "600" }],
+              "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+              "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+              "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600" }],
+              caption: ["12px", { lineHeight: "1.4", fontWeight: "400" }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass-panel {
+        background: rgba(28, 27, 27, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(26px);
+      }
+      .gold-glow {
+        box-shadow: 0 20px 50px rgba(212, 175, 55, 0.12);
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background font-body min-h-screen">
+    <!-- Header -->
+    <header class="w-full sticky top-0 z-40 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant">
+      <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop py-4 flex items-center justify-between">
+        <a href="{% url 'home' %}" class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1">directions_car</span>
+          <span class="font-display text-headline-lg text-on-surface tracking-tight">NovaFleet</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-on-surface-variant">
+          <a class="hover:text-primary transition-colors" href="{% url 'home' %}">Home</a>
+          <a class="hover:text-primary transition-colors" href="{% url 'about' %}">About</a>
+          <a class="text-primary" href="{% url 'cars' %}">Fleet</a>
+          <a class="hover:text-primary transition-colors" href="{% url 'contact' %}">Contact</a>
+          {% if user.is_authenticated %}
+            <a class="hover:text-primary transition-colors" href="{% url 'my_bookings' %}">Bookings</a>
+            <a class="hover:text-primary transition-colors" href="{% url 'profile' %}">Profile</a>
+            <a class="px-4 py-2 rounded-lg bg-primary text-on-primary font-semibold hover:opacity-90 transition-opacity" href="{% url 'signout' %}">Logout</a>
+          {% else %}
+            <a class="hover:text-primary transition-colors" href="{% url 'register' %}">Register</a>
+            <a class="px-4 py-2 rounded-lg bg-primary text-on-primary font-semibold hover:opacity-90 transition-opacity" href="{% url 'signin' %}">Login</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
 
-{% block body %}
-<section class="vehicles-header">
-    <div class="container text-center">
-        <h1>Our Premium Fleet</h1>
-        <p>Choose your perfect ride from our carefully maintained collection</p>
-
-        <form method="get" action="{% url 'cars' %}" class="mt-4">
-            <div class="row justify-content-center">
-                <div class="col-md-4 mb-2">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control modern-input" placeholder="Search cars..." value="{{ query|default:'' }}">
-                        <div class="input-group-append"><button class="btn btn-warning" type="submit"><i class="fas fa-search"></i></button></div>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-2">
-                    <select name="sort" class="form-control modern-input" onchange="this.form.submit()">
-                        <option value="">Sort by</option>
-                        <option value="price_low" {% if request.GET.sort == 'price_low' %}selected{% endif %}>Price: Low-High</option>
-                        <option value="price_high" {% if request.GET.sort == 'price_high' %}selected{% endif %}>Price: High-Low</option>
-                        <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>Name A-Z</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-2 col-4 mb-2"><input type="number" name="min_price" class="form-control modern-input" placeholder="Min ₹" value="{{ request.GET.min_price|default:'' }}" onchange="this.form.submit()"></div>
-                <div class="col-md-2 col-4 mb-2"><input type="number" name="max_price" class="form-control modern-input" placeholder="Max ₹" value="{{ request.GET.max_price|default:'' }}" onchange="this.form.submit()"></div>
-            </div>
-        </form>
-
-        <div class="filter-buttons mt-3">
-            <a href="{% url 'cars' %}" class="btn-filter {% if not request.GET.category %}active{% endif %}">All</a>
-            <a href="{% url 'cars' %}?category=sedan" class="btn-filter {% if request.GET.category == 'sedan' %}active{% endif %}">Sedan</a>
-            <a href="{% url 'cars' %}?category=suv" class="btn-filter {% if request.GET.category == 'suv' %}active{% endif %}">SUV</a>
-            <a href="{% url 'cars' %}?category=luxury" class="btn-filter {% if request.GET.category == 'luxury' %}active{% endif %}">Luxury</a>
-            <a href="{% url 'cars' %}?category=hatchback" class="btn-filter {% if request.GET.category == 'hatchback' %}active{% endif %}">Hatchback</a>
-            <a href="{% url 'cars' %}?category=pickup" class="btn-filter {% if request.GET.category == 'pickup' %}active{% endif %}">Pickup</a>
+    <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop py-stack-xl">
+      <!-- Hero -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center mb-stack-xl">
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel mb-stack-sm">
+            <span class="material-symbols-outlined text-primary" style="font-size: 18px">verified</span>
+            <span class="text-caption text-on-surface-variant">Enterprise-grade luxury rentals</span>
+          </div>
+          <h1 class="font-display text-display-lg-mobile md:text-display-lg text-on-surface">
+            Midnight Velocity Fleet
+          </h1>
+          <p class="mt-stack-sm text-body-lg text-on-surface-variant max-w-2xl">
+            Search, filter, and book premium vehicles with real-time availability and dynamic pricing.
+          </p>
         </div>
-    </div>
-</section>
+        <div class="lg:col-span-5">
+          <div class="glass-panel rounded-xl p-stack-md gold-glow">
+            <form method="get" action="{% url 'cars' %}" class="grid grid-cols-1 gap-4">
+              <div>
+                <label class="text-caption text-on-surface-variant uppercase tracking-wider">Search</label>
+                <div class="mt-2 relative">
+                  <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                  <input name="q" value="{{ request.GET.q|default:'' }}" placeholder="Car name or description"
+                    class="w-full pl-10 pr-3 py-3 rounded-lg bg-surface-container-lowest/60 border border-outline-variant text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"/>
+                </div>
+              </div>
 
-<section class="section-dark">
-    <div class="container">
-        <div class="row">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="text-caption text-on-surface-variant uppercase tracking-wider">Min Price</label>
+                  <input type="number" name="min_price" value="{{ request.GET.min_price|default:'' }}" placeholder="₹"
+                    class="mt-2 w-full px-3 py-3 rounded-lg bg-surface-container-lowest/60 border border-outline-variant text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"/>
+                </div>
+                <div>
+                  <label class="text-caption text-on-surface-variant uppercase tracking-wider">Max Price</label>
+                  <input type="number" name="max_price" value="{{ request.GET.max_price|default:'' }}" placeholder="₹"
+                    class="mt-2 w-full px-3 py-3 rounded-lg bg-surface-container-lowest/60 border border-outline-variant text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"/>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="text-caption text-on-surface-variant uppercase tracking-wider">Category</label>
+                  <select name="category"
+                    class="mt-2 w-full px-3 py-3 rounded-lg bg-surface-container-lowest/60 border border-outline-variant text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40">
+                    <option value="">All</option>
+                    <option value="sedan" {% if request.GET.category == 'sedan' %}selected{% endif %}>Sedan</option>
+                    <option value="suv" {% if request.GET.category == 'suv' %}selected{% endif %}>SUV</option>
+                    <option value="luxury" {% if request.GET.category == 'luxury' %}selected{% endif %}>Luxury</option>
+                    <option value="hatchback" {% if request.GET.category == 'hatchback' %}selected{% endif %}>Hatchback</option>
+                    <option value="pickup" {% if request.GET.category == 'pickup' %}selected{% endif %}>Pickup</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-caption text-on-surface-variant uppercase tracking-wider">Sort</label>
+                  <select name="sort"
+                    class="mt-2 w-full px-3 py-3 rounded-lg bg-surface-container-lowest/60 border border-outline-variant text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40">
+                    <option value="">Recommended</option>
+                    <option value="price_low" {% if request.GET.sort == 'price_low' %}selected{% endif %}>Price: Low-High</option>
+                    <option value="price_high" {% if request.GET.sort == 'price_high' %}selected{% endif %}>Price: High-Low</option>
+                    <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>Name A-Z</option>
+                  </select>
+                </div>
+              </div>
+
+              <button class="mt-2 px-5 py-3 rounded-lg bg-primary text-on-primary font-semibold hover:opacity-90 transition-opacity" type="submit">
+                Apply Filters
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fleet grid -->
+      <section>
+        <div class="flex items-end justify-between gap-4 mb-stack-md">
+          <div>
+            <h2 class="font-display text-headline-lg text-on-surface">Vehicle Fleet</h2>
+            <p class="text-body-md text-on-surface-variant">Showing available vehicles</p>
+          </div>
+          <a class="hidden md:inline-flex items-center gap-2 text-primary hover:underline decoration-primary" href="{% url 'bill' %}">
+            <span class="material-symbols-outlined" style="font-size: 18px">bolt</span>
+            Quick Booking
+          </a>
+        </div>
+
+        {% if car %}
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
             {% for i in car %}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="car-card car-3d-hover" data-tilt>
-                    <a href="/car/{{ i.id }}/">
-                        <div class="car-image">
-                            <img src="{{ i.image.url }}" alt="{{ i.car_name }}">
-                            <div class="car-overlay">
-                                <span class="btn-rent">View Details <i class="fas fa-arrow-right ml-2"></i></span>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="car-details">
-                        <h3>{{ i.car_name }}</h3>
-                        <p>{{ i.car_desc|truncatechars:80 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="car-price"><span class="price">₹{{ i.price|intcomma }}</span><span class="per-day">/ day</span></div>
-                            <a href="/bill?car_name={{ i.car_name }}" class="btn btn-sm btn-warning">Rent</a>
-                        </div>
+              <a href="{% url 'car_detail' i.id %}"
+                 class="glass-panel rounded-xl overflow-hidden group cursor-pointer relative flex flex-col hover:shadow-[0_20px_50px_rgba(212,175,55,0.05)] transition-all duration-500 hover:-translate-y-1">
+                <div class="h-64 overflow-hidden relative bg-surface-container-low">
+                  <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent z-10"></div>
+                  {% if i.image %}
+                    <img alt="{{ i.car_name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" src="{{ i.image.url }}" />
+                  {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                      <span class="material-symbols-outlined" style="font-size: 54px">image</span>
                     </div>
+                  {% endif %}
+                  <div class="absolute top-4 left-4 z-20 flex gap-2">
+                    <span class="bg-surface-container-highest/80 backdrop-blur-md text-primary text-caption px-3 py-1 rounded-full border border-primary/20">
+                      {{ i.category|default:"Car"|title }}
+                    </span>
+                    <span class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface text-caption px-3 py-1 rounded-full border border-white/10">
+                      {{ i.fuel_type|default:"Fuel"|title }}
+                    </span>
+                  </div>
                 </div>
-            </div>
-            {% empty %}
-            <div class="col-12 text-center py-5">
-                <i class="fas fa-car-side fa-4x text-muted mb-3"></i>
-                <p class="text-muted">No cars found. Try different filters.</p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endblock %}
+                <div class="p-stack-md flex flex-col flex-grow relative z-20 bg-surface-container-lowest/80">
+                  <div class="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 class="font-display text-headline-md text-on-surface group-hover:text-primary transition-colors">{{ i.car_name }}</h3>
+                      <p class="text-body-md text-on-surface-variant">{{ i.year }} Model</p>
+                    </div>
+                    <div class="flex flex-col items-end">
+                      <span class="font-display text-headline-md text-primary">
+                        ₹{{ i.price|intcomma }}<span class="text-caption text-on-surface-variant">/day</span>
+                      </span>
+                    </div>
+                  </div>
 
-{% block scripts %}
-<script>
-gsap.from('.car-card', { duration: 0.8, y: 60, opacity: 0, stagger: 0.1, ease: 'power3.out', scrollTrigger: { trigger: '.car-card', start: 'top 85%' } });
-document.querySelectorAll('.car-3d-hover').forEach(card => {
-  card.addEventListener('mousemove', function(e) {
-    const r = this.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-    this.style.transform = `perspective(800px) rotateY(${(x-0.5)*15}deg) rotateX(${(0.5-y)*15}deg) scale3d(1.03,1.03,1.03)`;
-  });
-  card.addEventListener('mouseleave', function() { this.style.transform = 'none' });
-});
-</script>
-{% endblock %}
+                  <div class="flex justify-between border-t border-outline-variant pt-4 mt-auto">
+                    <div class="flex items-center gap-2 text-on-surface-variant">
+                      <span class="material-symbols-outlined" style="font-size: 18px">airline_seat_recline_normal</span>
+                      <span class="text-caption">{{ i.seating_capacity }} Seats</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-on-surface-variant">
+                      <span class="material-symbols-outlined" style="font-size: 18px">settings</span>
+                      <span class="text-caption">{{ i.transmission|default:"Auto"|title }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-on-surface-variant">
+                      <span class="material-symbols-outlined" style="font-size: 18px">local_gas_station</span>
+                      <span class="text-caption">{{ i.mileage }} km/l</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="glass-panel rounded-xl p-stack-lg text-center">
+            <div class="text-primary mb-3">
+              <span class="material-symbols-outlined" style="font-size: 42px">search_off</span>
+            </div>
+            <h3 class="font-display text-headline-md text-on-surface">No vehicles found</h3>
+            <p class="text-body-md text-on-surface-variant mt-2">Try adjusting your filters.</p>
+            <div class="mt-6">
+              <a class="px-5 py-3 rounded-lg bg-primary text-on-primary font-semibold hover:opacity-90 transition-opacity" href="{% url 'cars' %}">
+                Reset Filters
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </section>
+    </main>
+
+    <footer class="w-full py-stack-xl mt-stack-xl border-t border-outline-variant bg-surface-container-lowest">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-tablet lg:px-margin-desktop max-w-container-max mx-auto">
+        <div class="col-span-1">
+          <div class="font-display text-headline-lg font-bold text-primary mb-3">NovaFleet</div>
+          <div class="text-caption text-on-surface-variant">© {% now 'Y' %} NovaFleet Car Rentals. All rights reserved.</div>
+        </div>
+        <div class="col-span-1 md:col-span-3 flex flex-wrap gap-6 md:justify-end items-center">
+          <a class="text-caption text-on-surface-variant hover:text-primary hover:underline decoration-primary" href="{% url 'about' %}">About</a>
+          <a class="text-caption text-on-surface-variant hover:text-primary hover:underline decoration-primary" href="{% url 'contact' %}">Contact</a>
+          <a class="text-caption text-on-surface-variant hover:text-primary hover:underline decoration-primary" href="{% url 'cars' %}">Fleet</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
