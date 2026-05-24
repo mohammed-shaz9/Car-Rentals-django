@@ -1,70 +1,91 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{%load static%}
-<link rel="stylesheet" href="{%static 'style.css'%}">
+{% block title %}Sign Up{% endblock title %}
 
 {% block body %}
-
-<section class="h-100 bg-dark">
+<div class="auth-section">
     {% include 'messages.html' %}
-	<div class="container py-5 h-100">
-	  <div class="row d-flex justify-content-center align-items-center h-100">
-		<div class="col">
-		  <div class="card card-registration my-4">
-			<div class="row g-0">
-			  <div class="col-xl-6 d-none d-xl-block">
-				<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
-				  alt="Sample photo" class="img-fluid"
-				  style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
-			  </div>
-			  <div class="col-xl-6">
-				<div class="card-body p-md-5 text-black">
-				  <h3 class="mb-5 text-uppercase" style="color:black";>Sign Up</h3>
-  
-				  
-   <form method="post"  action="/register">
-	{% csrf_token %}
-	<div class="form-group">
-		<label for="name" style="color:black"; >Name</label>
-		<input type="text" class="form-control" id="name" placeholder="Name" name='name'>
-	  </div>
-	  <div class="form-group">
-		<label for="name" style="color:black";>UserName</label>
-		<input type="text" class="form-control" id="username" placeholder="Username" name='username'>
-	  </div>
-	<div class="form-group">
-		<div class="form-group">
-			<label for="name" style="color:black";>Phone Number</label>
-			<input type="num" class="form-control" id="number" placeholder="Eg: 9120001478" name='number'>
-		  </div>
-		<div class="form-group">
-	  <label for="exampleInputEmail1" style="color:black";>Email address</label>
-	  <input type="Email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name='email'>
-	  <small id="emailHelp" class="form-text text-muted" style="color:black";>We'll never share your email with anyone else.</small>
-	</div>
-	<div class="form-group">
-	  <label for="exampleInputPassword1" style="color:black";>Password</label>
-	  <input type="password" class="form-control" id="password" placeholder="Password" name='password'>
-	</div>
-	<div class="form-group">
-		<label for="exampleInputPassword1" style="color:black";>Confirm Password</label>
-		<input type="password" class="form-control" id="password2" placeholder="Confirm Password" name='password2'>
-	  </div>
-	{% comment %} <button type="submit" class="btn btn-primary">Submit</button> {% endcomment %}
-  
-				  <div class="d-flex justify-content-end pt-3">
-					{% comment %} <button type="button" class="btn btn-warning btn-lg ms-2" href="\login">Submit form</button> {% endcomment %}
-					<button type="submit" class="btn btn-warning btn-lg ms-2">Submit</button>
-				  </div>
-				</form>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <img src="{% static 'logo1.webp' %}" alt="NovaFleet" class="auth-logo">
+                        <h2>Create Account</h2>
+                        <p>Join NovaFleet today</p>
+                    </div>
+                    <div class="auth-body">
+                        <form method="post" action="/register">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-user mr-2"></i>Full Name</label>
+                                        <input type="text" class="form-control modern-input" id="name" name="name" placeholder="John Doe" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-at mr-2"></i>Username</label>
+                                        <input type="text" class="form-control modern-input" id="username" name="username" placeholder="johndoe" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-phone mr-2"></i>Phone Number</label>
+                                        <input type="tel" class="form-control modern-input" id="number" name="number" placeholder="+91 9876543210">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-envelope mr-2"></i>Email</label>
+                                        <input type="email" class="form-control modern-input" id="email" name="email" placeholder="john@example.com" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-lock mr-2"></i>Password</label>
+                                        <input type="password" class="form-control modern-input" id="password" name="password" placeholder="Min 8 characters" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-check-circle mr-2"></i>Confirm Password</label>
+                                        <input type="password" class="form-control modern-input" id="password2" name="password2" placeholder="Repeat password" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-auth">
+                                <i class="fas fa-user-plus mr-2"></i>Create Account
+                            </button>
+                        </form>
 
+                        <div class="divider">
+                            <span>or sign up with</span>
+                        </div>
 
+                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google">
+                            <i class="fab fa-google mr-2"></i>Sign up with Google
+                        </a>
+
+                        <div class="auth-footer">
+                            <p>Already have an account? <a href="/signin">Sign in</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock body %}
+
+{% block scripts %}
+<script>
+    gsap.from('.auth-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
+</script>
+{% endblock scripts %}

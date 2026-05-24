@@ -1,57 +1,51 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Booking Confirmed</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-        }
+{% block title %}Booking Confirmed{% endblock title %}
 
-        h1 {
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
+{% block body %}
+<div class="confirmation-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="confirmation-card">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h1>Booking Confirmed!</h1>
+                    <p class="lead">Thank you for choosing NovaFleet.</p>
+                    
+                    {% if booking %}
+                    <div class="booking-summary mt-4">
+                        <h4>Booking Summary</h4>
+                        <p><strong>Car:</strong> {{ booking.cars }}</p>
+                        <p><strong>Days:</strong> {{ booking.days_for_rent }}</p>
+                        <p><strong>Pickup:</strong> {{ booking.date }}</p>
+                        <p><strong>From:</strong> {{ booking.loc_from }} → <strong>To:</strong> {{ booking.loc_to }}</p>
+                    </div>
+                    {% endif %}
 
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
+                    <div class="mt-4">
+                        <p>A confirmation email has been sent to your registered email address.</p>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <a href="{% url 'home' %}" class="btn-auth">
+                            <i class="fas fa-home mr-2"></i>Return to Home
+                        </a>
+                        <a href="{% url 'vehicles' %}" class="btn-outline ml-3">
+                            <i class="fas fa-car mr-2"></i>Browse More Cars
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
 
-        img {
-            margin: 40px auto 20px;
-            display: block;
-            max-width: 80%;
-            height: auto;
-        }
-
-        a {
-            text-decoration: none;
-            color: white;
-            background-color: #4CAF50;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            display: inline-block;
-            margin-top: 30px;
-        }
-
-        a:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
-    <h1>Your car was booked successfully!</h1>
-    <p>Thank you for choosing our service.</p>
-
-    <!-- ✅ Image clearly placed below -->
-    <img src="{% static 'background.jpg' %}" alt="Booking Confirmation">
-
-    <a href="{% url 'home' %}">Return to Home</a>
-</body>
-</html>
+{% block scripts %}
+<script>
+    gsap.from('.confirmation-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
+    gsap.from('.success-icon i', { duration: 0.5, scale: 0, opacity: 0, ease: 'back.out(2)', delay: 0.3 });
+</script>
+{% endblock scripts %}

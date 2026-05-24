@@ -1,68 +1,57 @@
 {% extends 'base.html' %}
-{%load static%}
-<link rel="stylesheet" href="{% static 'style.css'%}">
+{% load static %}
+
+{% block title %}Sign In{% endblock title %}
+
 {% block body %}
+<div class="auth-section">
+    {% include 'messages.html' %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <img src="{% static 'logo1.webp' %}" alt="NovaFleet" class="auth-logo">
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to your account</p>
+                    </div>
+                    <div class="auth-body">
+                        <form method="post" action="/signin">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label><i class="fas fa-user mr-2"></i>Username</label>
+                                <input type="text" class="form-control modern-input" id="loginusername" name="loginusername" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-lock mr-2"></i>Password</label>
+                                <input type="password" class="form-control modern-input" id="loginpassword" name="loginpassword" placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="btn-auth">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                            </button>
+                        </form>
 
+                        <div class="divider">
+                            <span>or continue with</span>
+                        </div>
 
-<section class="h-100 gradient-form" style="background-color: #eee;">
-  {% include 'messages.html' %}
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-10">
-        <div class="card rounded-3 text-black">
-          <div class="row g-0">
-            <div class="col-lg-6">
-              <div class="card-body p-md-5 mx-md-4">
+                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google">
+                            <i class="fab fa-google mr-2"></i>Sign in with Google
+                        </a>
 
-                <div class="text-center">
-                  {%load static%}
-                  <img src={%static "logo1.webp"%}
-                    style="width: 150px;" alt="logo">
-                  <h4 class="mt-1 mb-5 pb-1" style="color:black";>CarZest!</h4>
+                        <div class="auth-footer">
+                            <p>Don't have an account? <a href="/register">Create one</a></p>
+                        </div>
+                    </div>
                 </div>
-
-                <form method="post"  action="/signin">
-                  {%csrf_token%}
-                  <p style="color:black">Please login to your account</p>
-
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="form2Example11" style="color:black";>Username</label>
-                    <input type="text" id="loginusername" name="loginusername" class="form-control"
-                      placeholder="Username" required >
-                    {% comment %} <label class="form-label" for="form2Example11">Username</label> {% endcomment %}
-                  </div>
-
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="form2Example22" style="color:black";>Password</label>
-                    <input type="password" id="loginpassword" name = "loginpassword" class="form-control" placeholder="Password" required />
-                    {% comment %} <label class="form-label" for="form2Example22">Password</label> {% endcomment %}
-                  </div>
-
-                  <div class="text-center pt-1 mb-5 pb-1">
-                    
-                      <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" >Log in</button>
-                  </div>
-                </form>
-                  <div class="d-flex align-items-center justify-content-center pb-4">
-                    <p class="mb-0 me-2" style="color: black ";>Don't have an account?</p>
-                    {% comment %} <button type="button" class="btn btn-outline-danger" href="/register">Create new</button> {% endcomment %}
-                    <a class="btn btn-outline-danger" href="/register" role="button">Create new</a>
-                  </div>
-
-                
-
-              </div>
             </div>
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2 "
-            style="background-image: url({% static "login.jpg" %});  background-repeat: no-repeat; background-size: cover;">
-              <div class="text-black px-3 py-4 p-md-5 mx-md-4">
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-</section>
+</div>
+{% endblock body %}
 
-{%endblock%}
+{% block scripts %}
+<script>
+    gsap.from('.auth-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
+</script>
+{% endblock scripts %}

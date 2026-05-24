@@ -1,178 +1,148 @@
 {% extends 'base.html' %}
-
-{% block title %}Vehicles{% endblock title %}
+{% block title %}Book a Car{% endblock title %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'style.css' %}">
+
 {% block body %}
-<form method="post" action="\bill">
-  {% csrf_token %}
-  <div class="container" id="yo">
-    <div class="cols my-4">
-      <h2 style="text-align : center" class="head my-4">Booking Details</h2>
-      <div class="form-group col-md-12">
-        <label for="billname">Full Name : </label>
-        <input type="text" class="form-control" id="billname" name="billname" placeholder="Full Name">
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="billemail">Email : </label>
-          <input type="email" class="form-control" id="billemail" name="billemail" placeholder="name@gmail.com" required>
+{% include 'messages.html' %}
+<div class="booking-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="booking-card">
+                    <h2 class="booking-title text-center">Complete Your Booking</h2>
+                    <form method="post" action="/bill" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-user mr-2"></i>Full Name</label>
+                                    <input type="text" class="form-control modern-input" id="billname" name="billname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-envelope mr-2"></i>Email</label>
+                                    <input type="email" class="form-control modern-input" id="billemail" name="billemail" value="{{ request.user.email }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-phone mr-2"></i>Phone Number</label>
+                                    <input type="tel" class="form-control modern-input" id="billphone" name="billphone" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-city mr-2"></i>City</label>
+                                    <input type="text" class="form-control modern-input" id="billcity" name="billcity" placeholder="Hyderabad" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt mr-2"></i>Address</label>
+                            <input type="text" class="form-control modern-input" id="billaddress" name="billaddress" required>
+                        </div>
+                        <hr class="divider-light">
+                        <h4 class="mb-3"><i class="fas fa-car mr-2"></i>Car Selection</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Select Car</label>
+                                    <select id="cars11" name="cars11" class="form-control modern-input" onchange="updateCarPrice()" required>
+                                        <option value="">Choose a car...</option>
+                                        <option value="Renault" data-price="2000" {% if request.GET.car_name == 'Renault' %}selected{% endif %}>Renault - ₹2000/day</option>
+                                        <option value="Alto 800" data-price="700" {% if request.GET.car_name == 'Alto 800' %}selected{% endif %}>Alto 800 - ₹700/day</option>
+                                        <option value="Innova Crysta" data-price="3500" {% if request.GET.car_name == 'Innova Crysta' %}selected{% endif %}>Innova Crysta - ₹3500/day</option>
+                                        <option value="Chevy Traverse" data-price="3000" {% if request.GET.car_name == 'Chevy Traverse' %}selected{% endif %}>Chevy Traverse - ₹3000/day</option>
+                                        <option value="BMW X5" data-price="10000" {% if request.GET.car_name == 'BMW X5' %}selected{% endif %}>BMW X5 - ₹10000/day</option>
+                                        <option value="Honda City" data-price="2500" {% if request.GET.car_name == 'Honda City' %}selected{% endif %}>Honda City - ₹2500/day</option>
+                                        <option value="Mercedes Benz" data-price="40000" {% if request.GET.car_name == 'Mercedes Benz' %}selected{% endif %}>Mercedes Benz - ₹40000/day</option>
+                                        <option value="Swift Dezire" data-price="1000" {% if request.GET.car_name == 'Swift Dezire' %}selected{% endif %}>Swift Dezire - ₹1000/day</option>
+                                        <option value="KIA" data-price="800" {% if request.GET.car_name == 'KIA' %}selected{% endif %}>KIA - ₹800/day</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Days</label>
+                                    <input type="number" class="form-control modern-input" id="dayss" name="dayss" min="1" max="30" oninput="calculateTotal()" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Pickup Date</label>
+                                    <input type="date" class="form-control modern-input" id="date" name="date" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-map-pin mr-2"></i>From Location</label>
+                                    <input type="text" class="form-control modern-input" id="fl" name="fl" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-map-pin mr-2"></i>To Location</label>
+                                    <input type="text" class="form-control modern-input" id="tl" name="tl" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="total-section text-center" id="totalSection" style="display:none;">
+                            <h3>Total: <span id="totalAmount">₹0</span></h3>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn-outline mr-3" onclick="calculateTotal()">
+                                <i class="fas fa-calculator mr-2"></i>Calculate
+                            </button>
+                            <button type="submit" class="btn-auth">
+                                <i class="fas fa-check-circle mr-2"></i>Confirm Booking
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <script>
-          // Update the validation script
-          document.querySelector("form").addEventListener("submit", function(event) {
-              const requiredFields = ["billname", "billemail", "billphone", "billaddress", "billcity", "dayss", "date", "fl", "tl"];
-              const color = document.getElementById("color1").value;
-              let isValid = true;
-  
-              requiredFields.forEach(fieldId => {
-                  const field = document.getElementById(fieldId);
-                  if (!field.value.trim()) {
-                      isValid = false;
-                  }
-              });
-  
-              if (color === "Choose...") {
-                  isValid = false;
-              }
-  
-              if (!isValid) {
-                  event.preventDefault();
-                  alert("Please fill out all required fields before confirming the booking.");
-              }
-          });
-        </script>
-        <div class="form-group col-md-6">
-          <label for="billphone">Phone Number : </label>
-          <input type="tel" class="form-control" id="billphone" name="billphone">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="billaddress">Address</label>
-        <input type="text" class="form-control" id="billaddress" name="billaddress" placeholder="COEP">
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="billcity">City</label>
-          <input type="text" class="form-control" id="billcity" name="billcity">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputState">State</label>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>Maharashtra</option>
-            <option>Delhi</option>
-            <option>Andra Pradesh</option>
-            <option>Gujarat</option>
-            <option>Tamil Nadu</option>
-            <option>Kerala</option>
-            <option>Karnataka</option>
-          </select>
-        </div>
-        <div class="form-group col-md-2">
-          <label for="inputZip">Pin Code</label>
-          <input type="text" class="form-control" id="inputZip">
-        </div>
-      </div>
-      <h2 style="text-align : center" class="head my-4">Car Details</h2>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="cars11">Car Chosen (For Confirmation)</label>
-          <select id="cars11" name="cars11" class="form-control">
-            <option value="Choose..." {% if request.GET.car_name == None %}selected{% endif %}>Choose...</option>
-            <option value="Renault" {% if request.GET.car_name == 'Renault' %}selected{% endif %}>Renault</option>
-            <option value="Alto 800" {% if request.GET.car_name == 'Alto 800' %}selected{% endif %}>Alto 800</option>
-            <option value="Innova Crysta" {% if request.GET.car_name == 'Innova Crysta' %}selected{% endif %}>Innova Crysta</option>
-            <option value="Chevy Traverse" {% if request.GET.car_name == 'Chevy Traverse' %}selected{% endif %}>Chevy Traverse</option>
-            <option value="BMW X5" {% if request.GET.car_name == 'BMW X5' %}selected{% endif %}>BMW X5</option>
-            <option value="Honda City" {% if request.GET.car_name == 'Honda City' %}selected{% endif %}>Honda City</option>
-            <option value="Mercedes Benz" {% if request.GET.car_name == 'Mercedes Benz' %}selected{% endif %}>Mercedes Benz</option>
-            <option value="Swift Dezire" {% if request.GET.car_name == 'Swift Dezire' %}selected{% endif %}>Swift Dezire</option>
-            <option value="KIA" {% if request.GET.car_name == 'KIA' %}selected{% endif %}>KIA</option>
-        </select>
-        
-        </div>
-        <div class="form-group col-md-6">
-          <label for="color1">Color of the car</label>
-          <select id="color1" class="form-control">
-            <option selected>Choose...</option>
-            <option value="Black">Black</option>
-            <option value="Red">Red</option>
-            <option value="White">White</option>
-            <option value="Silver">Silver</option>
-            <option value="Blue">Blue</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6" id="d11">
-          <label for="dayss">No. of days : </label>
-          <input type="number" class="form-control" id="dayss" name="dayss" min="1" max="30">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="date">Pickup Date : </label>
-          <input type="date" class="form-control" id="date" name="date">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="fl">From Location: </label>
-          <input type="text" class="form-control" id="fl" name="fl">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="tl">To Location : </label>
-          <input type="text" class="form-control" id="tl" name="tl">
-        </div>
-      </div>
-      <div class="cols1 my-4">
-        <h2 style="text-align : center">Total Bill</h2>
-        <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between align-items-center my-3" id="rentsec" style="color: black">
-            <p>Total Rent is : Rs <span></span></p>
-          </li>
-        </ul>
-      </div>
     </div>
-  </div>
-  <div class="text-center">
-    <button class="btn btn-primary" type="button" onclick="calculate()">Display Bill</button>
-    <button class="btn btn-primary" type="submit">Confirm Booking</button>
-  </div>
-</form>
-<script>
-function calculate() {
-  const name = document.getElementById("billname").value.trim();
-  const email = document.getElementById("billemail").value.trim();
-  const phone = document.getElementById("billphone").value.trim();
-  const address = document.getElementById("billaddress").value.trim();
-  const city = document.getElementById("billcity").value.trim();
-  const days = document.getElementById("dayss").value.trim();
-  const date = document.getElementById("date").value.trim();
-  const fromLoc = document.getElementById("fl").value.trim();
-  const toLoc = document.getElementById("tl").value.trim();
-  const car = document.getElementById("cars11").value;
-  const color = document.getElementById("color1").value;
-
-  if (!name || !email || !phone || !address || !city || !days || !date || !fromLoc || !toLoc || car === "Choose..." || color === "Choose...") {
-    alert("Please fill out all required fields before displaying the bill.");
-    return;
-  }
-
-  let rent = 0;
-  switch (car) {
-    case "Renault": rent = 2000; break;
-    case "Alto 800": rent = 700; break;
-    case "Innova Crysta": rent = 3500; break;
-    case "Chevy Traverse": rent = 3000; break;
-    case "BMW X5": rent = 10000; break;
-    case "Honda City": rent = 2500; break;
-    case "Mercedes Benz": rent = 40000; break;
-    case "Swift Dezire": rent = 1000; break;
-    case "KIA": rent = 800; break;
-  }
-
-  const total = rent * Number(days);
-  document.querySelector("#rentsec span").textContent = total;
-}
-</script>
+</div>
 {% endblock body %}
+
+{% block scripts %}
+<script>
+function updateCarPrice() {
+    const select = document.getElementById('cars11');
+    calculateTotal();
+}
+
+function calculateTotal() {
+    const select = document.getElementById('cars11');
+    const days = document.getElementById('dayss').value;
+    const selectedOption = select.options[select.selectedIndex];
+    
+    if (select.value && days) {
+        const price = parseInt(selectedOption.dataset.price);
+        const total = price * parseInt(days);
+        document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString();
+        document.getElementById('totalSection').style.display = 'block';
+    }
+}
+
+function validateForm() {
+    const requiredFields = ['billname', 'billemail', 'billphone', 'billaddress', 'billcity', 'cars11', 'dayss', 'date', 'fl', 'tl'];
+    for (let id of requiredFields) {
+        const field = document.getElementById(id);
+        if (!field.value.trim()) {
+            alert('Please fill in all required fields.');
+            field.focus();
+            return false;
+        }
+    }
+    return confirm('Confirm your booking?');
+}
+
+gsap.from('.booking-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
+</script>
+{% endblock scripts %}
