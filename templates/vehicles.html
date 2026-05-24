@@ -1,13 +1,37 @@
 {% extends 'base.html' %}
-{% block title %}Our Fleet{% endblock title %}
-{% load static %}
+{% block title %}Our Fleet{% endblock %}
+{% load static humanize %}
 
 {% block body %}
 <section class="vehicles-header">
     <div class="container text-center">
         <h1>Our Premium Fleet</h1>
         <p>Choose your perfect ride from our carefully maintained collection</p>
-        <div class="filter-buttons mt-4">
+
+        <form method="get" action="{% url 'cars' %}" class="mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-2">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control modern-input" placeholder="Search cars..." value="{{ query|default:'' }}">
+                        <div class="input-group-append"><button class="btn btn-warning" type="submit"><i class="fas fa-search"></i></button></div>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <select name="sort" class="form-control modern-input" onchange="this.form.submit()">
+                        <option value="">Sort by</option>
+                        <option value="price_low" {% if request.GET.sort == 'price_low' %}selected{% endif %}>Price: Low-High</option>
+                        <option value="price_high" {% if request.GET.sort == 'price_high' %}selected{% endif %}>Price: High-Low</option>
+                        <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>Name A-Z</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-2 col-4 mb-2"><input type="number" name="min_price" class="form-control modern-input" placeholder="Min ₹" value="{{ request.GET.min_price|default:'' }}" onchange="this.form.submit()"></div>
+                <div class="col-md-2 col-4 mb-2"><input type="number" name="max_price" class="form-control modern-input" placeholder="Max ₹" value="{{ request.GET.max_price|default:'' }}" onchange="this.form.submit()"></div>
+            </div>
+        </form>
+
+        <div class="filter-buttons mt-3">
             <a href="{% url 'cars' %}" class="btn-filter {% if not request.GET.category %}active{% endif %}">All</a>
             <a href="{% url 'cars' %}?category=sedan" class="btn-filter {% if request.GET.category == 'sedan' %}active{% endif %}">Sedan</a>
             <a href="{% url 'cars' %}?category=suv" class="btn-filter {% if request.GET.category == 'suv' %}active{% endif %}">SUV</a>
@@ -23,39 +47,46 @@
         <div class="row">
             {% for i in car %}
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="car-card">
-                    <div class="car-image">
-                        <img src="/media/{{ i.image }}" alt="{{ i.car_name }}">
-                        <div class="car-overlay">
-                            <a href="/bill?car_name={{ i.car_name }}" class="btn-rent">Rent Now <i class="fas fa-arrow-right ml-2"></i></a>
+                <div class="car-card car-3d-hover" data-tilt>
+                    <a href="/car/{{ i.id }}/">
+                        <div class="car-image">
+                            <img src="{{ i.image.url }}" alt="{{ i.car_name }}">
+                            <div class="car-overlay">
+                                <span class="btn-rent">View Details <i class="fas fa-arrow-right ml-2"></i></span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                     <div class="car-details">
                         <h3>{{ i.car_name }}</h3>
-                        <p>{{ i.car_desc }}</p>
-                        <div class="car-price">
-                            <span class="price">₹{{ i.price }}</span>
-                            <span class="per-day">/ day</span>
+                        <p>{{ i.car_desc|truncatechars:80 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="car-price"><span class="price">₹{{ i.price|intcomma }}</span><span class="per-day">/ day</span></div>
+                            <a href="/bill?car_name={{ i.car_name }}" class="btn btn-sm btn-warning">Rent</a>
                         </div>
                     </div>
                 </div>
             </div>
             {% empty %}
             <div class="col-12 text-center py-5">
-                <i class="fas fa-car-side" style="font-size: 60px; color: rgba(255,255,255,0.3);"></i>
-                <p class="mt-3">No cars available in this category right now.</p>
+                <i class="fas fa-car-side fa-4x text-muted mb-3"></i>
+                <p class="text-muted">No cars found. Try different filters.</p>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
-{% endblock body %}
+{% endblock %}
 
 {% block scripts %}
 <script>
-    gsap.from('.car-card', {
-        duration: 0.8, y: 60, opacity: 0, stagger: 0.1, ease: 'power3.out',
-        scrollTrigger: { trigger: '.car-card', start: 'top 85%' }
-    });
+gsap.from('.car-card', { duration: 0.8, y: 60, opacity: 0, stagger: 0.1, ease: 'power3.out', scrollTrigger: { trigger: '.car-card', start: 'top 85%' } });
+document.querySelectorAll('.car-3d-hover').forEach(card => {
+  card.addEventListener('mousemove', function(e) {
+    const r = this.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    this.style.transform = `perspective(800px) rotateY(${(x-0.5)*15}deg) rotateX(${(0.5-y)*15}deg) scale3d(1.03,1.03,1.03)`;
+  });
+  card.addEventListener('mouseleave', function() { this.style.transform = 'none' });
+});
 </script>
-{% endblock scripts %}
+{% endblock %}

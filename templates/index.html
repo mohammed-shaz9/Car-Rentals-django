@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock title %}
-{% load static %}
+{% block title %}Home{% endblock %}
+{% load static humanize %}
 
 {% block body %}
 <div id="heroCarousel" class="carousel slide hero-carousel" data-ride="carousel">
@@ -14,7 +14,7 @@
             <div class="hero-slide" style="background-image: url('https://images.hdqwalls.com/wallpapers/ford-mustang-monochrome-4k-ns.jpg');">
                 <div class="hero-overlay">
                     <div class="hero-content">
-                        <h1 class="hero-title">Drive Your Dream</h1>
+                        <h1 class="hero-title" style="font-size: 4rem; text-shadow: 0 0 40px rgba(212,175,55,0.3);">Drive Your Dream</h1>
                         <p class="hero-subtitle">Experience luxury and performance with every mile</p>
                         <a href="/vehicles" class="btn-hero">Browse Vehicles <i class="fas fa-arrow-right ml-2"></i></a>
                     </div>
@@ -25,7 +25,7 @@
             <div class="hero-slide" style="background-image: url('https://wallpaperaccess.com/full/2492656.jpg');">
                 <div class="hero-overlay">
                     <div class="hero-content">
-                        <h1 class="hero-title">Unmatched Comfort</h1>
+                        <h1 class="hero-title" style="font-size: 4rem;">Unmatched Comfort</h1>
                         <p class="hero-subtitle">Premium vehicles for every journey</p>
                         <a href="/vehicles" class="btn-hero">Explore Fleet <i class="fas fa-arrow-right ml-2"></i></a>
                     </div>
@@ -36,7 +36,7 @@
             <div class="hero-slide" style="background-image: url('https://th.bing.com/th/id/R.489c708ad79ba42b6e35df27acee4d59?rik=8ldxeba4UY%2fdyA&riu=http%3a%2f%2fm.gettywallpapers.com%2fwp-content%2fuploads%2f2023%2f01%2fNight-Dark-Car-Wallpaper-1920x1080-1.jpg&ehk=5GXVp9IP8ujpw7ZOXfL5nA9JPnG4Kl1D%2bJQjzawPr1I%3d&risl=&pid=ImgRaw&r=0');">
                 <div class="hero-overlay">
                     <div class="hero-content">
-                        <h1 class="hero-title">Affordable Luxury</h1>
+                        <h1 class="hero-title" style="font-size: 4rem;">Affordable Luxury</h1>
                         <p class="hero-subtitle">Top-tier cars at prices that surprise you</p>
                         <a href="/vehicles" class="btn-hero">View Pricing <i class="fas fa-arrow-right ml-2"></i></a>
                     </div>
@@ -44,47 +44,19 @@
             </div>
         </div>
     </div>
-    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    </a>
-    <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    </a>
+    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span></a>
+    <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next"><span class="carousel-control-next-icon"></span></a>
 </div>
 
 <section class="section-dark text-center">
     <div class="container">
         <h2 class="section-title">Welcome to NovaFleet</h2>
-        <p class="section-subtitle">Hyderabad's most trusted car rental service. From hatchbacks to luxury sedans and SUVs, we offer the widest range of well-maintained vehicles at competitive prices. Drive with confidence.</p>
+        <p class="section-subtitle">Hyderabad's most trusted car rental. From hatchbacks to luxury SUVs, we offer the widest range of well-maintained vehicles at competitive prices.</p>
         <div class="row mt-5">
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stat-item">
-                    <i class="fas fa-car-side fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h3 class="stat-number" data-target="25">0+</h3>
-                    <p>Car Models</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stat-item">
-                    <i class="fas fa-users fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h3 class="stat-number" data-target="15000">0+</h3>
-                    <p>Happy Customers</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stat-item">
-                    <i class="fas fa-calendar-check fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h3 class="stat-number" data-target="12">0+</h3>
-                    <p>Years Experience</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6 mb-4">
-                <div class="stat-item">
-                    <i class="fas fa-road fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h3 class="stat-number" data-target="500000">0+</h3>
-                    <p>Km Driven</p>
-                </div>
-            </div>
+            <div class="col-md-3 col-6 mb-4"><div class="stat-item"><i class="fas fa-car-side fa-3x mb-3" style="color: var(--gold);"></i><h3 class="stat-number" data-target="25">0+</h3><p>Car Models</p></div></div>
+            <div class="col-md-3 col-6 mb-4"><div class="stat-item"><i class="fas fa-users fa-3x mb-3" style="color: var(--gold);"></i><h3 class="stat-number" data-target="15000">0+</h3><p>Happy Customers</p></div></div>
+            <div class="col-md-3 col-6 mb-4"><div class="stat-item"><i class="fas fa-calendar-check fa-3x mb-3" style="color: var(--gold);"></i><h3 class="stat-number" data-target="14">0+</h3><p>Years Experience</p></div></div>
+            <div class="col-md-3 col-6 mb-4"><div class="stat-item"><i class="fas fa-road fa-3x mb-3" style="color: var(--gold);"></i><h3 class="stat-number" data-target="500000">0+</h3><p>Km Driven</p></div></div>
         </div>
     </div>
 </section>
@@ -96,28 +68,28 @@
         <div class="row">
             {% for car in featured_cars %}
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="car-card">
-                    <div class="car-image">
-                        <img src="{{ car.image.url }}" alt="{{ car.car_name }}">
-                        <div class="car-overlay">
-                            <a href="/bill?car_name={{ car.car_name }}" class="btn-rent">Rent Now <i class="fas fa-arrow-right ml-2"></i></a>
+                <div class="car-card car-3d-hover" data-tilt>
+                    <a href="/car/{{ car.id }}/">
+                        <div class="car-image">
+                            <img src="{{ car.image.url }}" alt="{{ car.car_name }}">
+                            <div class="car-overlay">
+                                <span class="btn-rent">View Details <i class="fas fa-arrow-right ml-2"></i></span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                     <div class="car-details">
                         <h3>{{ car.car_name }}</h3>
-                        <p>{{ car.car_desc }}</p>
-                        <div class="car-price">
-                            <span class="price">₹{{ car.price }}</span>
-                            <span class="per-day">/ day</span>
+                        <p>{{ car.car_desc|truncatechars:80 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="car-price"><span class="price">₹{{ car.price|intcomma }}</span><span class="per-day">/ day</span></div>
+                            <a href="/bill?car_name={{ car.car_name }}" class="btn btn-sm btn-warning">Book</a>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        <div class="text-center mt-4">
-            <a href="/vehicles" class="btn-hero">View Full Fleet <i class="fas fa-arrow-right ml-2"></i></a>
-        </div>
+        <div class="text-center mt-4"><a href="/vehicles" class="btn-hero">View Full Fleet <i class="fas fa-arrow-right ml-2"></i></a></div>
     </div>
 </section>
 {% endif %}
@@ -126,67 +98,30 @@
     <div class="container">
         <h2 class="section-title">Why Choose NovaFleet?</h2>
         <div class="row mt-4">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="feature-card text-center p-4">
-                    <i class="fas fa-shield-alt fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h5>Safe & Insured</h5>
-                    <p class="small">All vehicles fully insured and regularly serviced</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="feature-card text-center p-4">
-                    <i class="fas fa-tag fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h5>Best Prices</h5>
-                    <p class="small">Transparent pricing with no hidden charges</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="feature-card text-center p-4">
-                    <i class="fas fa-headset fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h5>24/7 Support</h5>
-                    <p class="small">Round-the-clock customer assistance</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="feature-card text-center p-4">
-                    <i class="fas fa-hand-sparkles fa-3x mb-3" style="color: var(--gold);"></i>
-                    <h5>Sanitized Cars</h5>
-                    <p class="small">Deep cleaned and sanitized before every rental</p>
-                </div>
-            </div>
+            <div class="col-lg-3 col-md-6 mb-4"><div class="feature-card text-center p-4"><i class="fas fa-shield-alt fa-3x mb-3" style="color: var(--gold);"></i><h5>Safe & Insured</h5><p class="small">All vehicles fully insured and regularly serviced</p></div></div>
+            <div class="col-lg-3 col-md-6 mb-4"><div class="feature-card text-center p-4"><i class="fas fa-tag fa-3x mb-3" style="color: var(--gold);"></i><h5>Best Prices</h5><p class="small">Transparent pricing with no hidden charges</p></div></div>
+            <div class="col-lg-3 col-md-6 mb-4"><div class="feature-card text-center p-4"><i class="fas fa-headset fa-3x mb-3" style="color: var(--gold);"></i><h5>24/7 Support</h5><p class="small">Round-the-clock customer assistance</p></div></div>
+            <div class="col-lg-3 col-md-6 mb-4"><div class="feature-card text-center p-4"><i class="fas fa-hand-sparkles fa-3x mb-3" style="color: var(--gold);"></i><h5>Sanitized Cars</h5><p class="small">Deep cleaned and sanitized before every rental</p></div></div>
         </div>
     </div>
 </section>
-{% endblock body %}
+{% endblock %}
 
 {% block scripts %}
 <script>
-    gsap.from('.hero-content', { duration: 1.5, y: 100, opacity: 0, ease: 'power4.out' });
+gsap.from('.hero-content', { duration: 1.5, y: 100, opacity: 0, ease: 'power4.out' });
+const counters = document.querySelectorAll('.stat-number');
+counters.forEach(c => { const t = +c.getAttribute('data-target'); let n = 0; const u = () => { n += t/200; if (n < t) { c.innerText = Math.ceil(n) + '+'; setTimeout(u, 20) } else { c.innerText = t.toLocaleString() + '+' } }; u() });
+gsap.from('.car-card', { scrollTrigger: { trigger: '.section-gallery', start: 'top 80%' }, duration: 0.8, y: 60, opacity: 0, stagger: 0.15, ease: 'power3.out' });
+gsap.from('.feature-card', { scrollTrigger: { trigger: '.section-features', start: 'top 85%' }, duration: 0.8, y: 40, opacity: 0, stagger: 0.1, ease: 'power3.out' });
 
-    const counters = document.querySelectorAll('.stat-number');
-    counters.forEach(counter => {
-        const updateCount = () => {
-            const target = +counter.getAttribute('data-target');
-            const count = +counter.innerText.replace('+', '');
-            const increment = target / 200;
-            if (count < target) {
-                counter.innerText = Math.ceil(count + increment) + '+';
-                setTimeout(updateCount, 20);
-            } else {
-                counter.innerText = target.toLocaleString() + '+';
-            }
-        };
-        updateCount();
-    });
-
-    gsap.from('.car-card', {
-        scrollTrigger: { trigger: '.section-gallery', start: 'top 80%' },
-        duration: 0.8, y: 60, opacity: 0, stagger: 0.15, ease: 'power3.out'
-    });
-
-    gsap.from('.feature-card', {
-        scrollTrigger: { trigger: '.section-features', start: 'top 85%' },
-        duration: 0.8, y: 40, opacity: 0, stagger: 0.1, ease: 'power3.out'
-    });
+document.querySelectorAll('.car-3d-hover').forEach(card => {
+  card.addEventListener('mousemove', function(e) {
+    const r = this.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    this.style.transform = `perspective(800px) rotateY(${(x-0.5)*15}deg) rotateX(${(0.5-y)*15}deg) scale3d(1.03,1.03,1.03)`;
+  });
+  card.addEventListener('mouseleave', function() { this.style.transform = 'none' });
+});
 </script>
-{% endblock scripts %}
+{% endblock %}

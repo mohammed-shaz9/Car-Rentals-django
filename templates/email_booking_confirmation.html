@@ -29,12 +29,14 @@
         <div class="body">
             <h2>Booking Confirmed!</h2>
             <p>Dear <strong>{{ name }}</strong>,</p>
-            <p>Your booking has been confirmed. Here are the details:</p>
+            <p>Your booking #<strong>{{ order_id }}</strong> has been confirmed. Here are the details:</p>
             <div class="details">
                 <table>
+                    <tr><td>Booking ID</td><td>#{{ order_id }}</td></tr>
                     <tr><td>Car</td><td>{{ car_name }}</td></tr>
                     <tr><td>Rental Days</td><td>{{ days }}</td></tr>
                     <tr><td>Price Per Day</td><td>₹{{ price_per_day }}</td></tr>
+                    {% if discount %}<tr><td>Discount</td><td>{{ discount }}% off</td></tr>{% endif %}
                     <tr><td>Pickup Date</td><td>{{ date }}</td></tr>
                     <tr><td>From Location</td><td>{{ loc_from }}</td></tr>
                     <tr><td>To Location</td><td>{{ loc_to }}</td></tr>

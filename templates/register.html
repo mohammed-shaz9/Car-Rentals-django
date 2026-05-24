@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}Sign Up{% endblock title %}
+{% block title %}Sign Up{% endblock %}
 
 {% block body %}
 <div class="auth-section">
-    {% include 'messages.html' %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
@@ -16,76 +14,34 @@
                         <p>Join NovaFleet today</p>
                     </div>
                     <div class="auth-body">
-                        <form method="post" action="/register">
+                        <form method="post">
                             {% csrf_token %}
+                            {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>{% endif %}
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-user mr-2"></i>Full Name</label>
-                                        <input type="text" class="form-control modern-input" id="name" name="name" placeholder="John Doe" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-at mr-2"></i>Username</label>
-                                        <input type="text" class="form-control modern-input" id="username" name="username" placeholder="johndoe" required>
-                                    </div>
-                                </div>
+                                <div class="col-md-6">{% include 'field.html' with field=form.name icon='user' %}</div>
+                                <div class="col-md-6">{% include 'field.html' with field=form.username icon='at' %}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-phone mr-2"></i>Phone Number</label>
-                                        <input type="tel" class="form-control modern-input" id="number" name="number" placeholder="+91 9876543210">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-envelope mr-2"></i>Email</label>
-                                        <input type="email" class="form-control modern-input" id="email" name="email" placeholder="john@example.com" required>
-                                    </div>
-                                </div>
+                                <div class="col-md-6">{% include 'field.html' with field=form.phone icon='phone' %}</div>
+                                <div class="col-md-6">{% include 'field.html' with field=form.email icon='envelope' %}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-lock mr-2"></i>Password</label>
-                                        <input type="password" class="form-control modern-input" id="password" name="password" placeholder="Min 8 characters" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-check-circle mr-2"></i>Confirm Password</label>
-                                        <input type="password" class="form-control modern-input" id="password2" name="password2" placeholder="Repeat password" required>
-                                    </div>
-                                </div>
+                                <div class="col-md-6">{% include 'field.html' with field=form.password icon='lock' %}</div>
+                                <div class="col-md-6">{% include 'field.html' with field=form.password2 icon='check-circle' %}</div>
                             </div>
-                            <button type="submit" class="btn-auth">
-                                <i class="fas fa-user-plus mr-2"></i>Create Account
-                            </button>
+                            <button type="submit" class="btn-auth"><i class="fas fa-user-plus mr-2"></i>Create Account</button>
                         </form>
-
-                        <div class="divider">
-                            <span>or sign up with</span>
-                        </div>
-
-                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google">
-                            <i class="fab fa-google mr-2"></i>Sign up with Google
-                        </a>
-
-                        <div class="auth-footer">
-                            <p>Already have an account? <a href="/signin">Sign in</a></p>
-                        </div>
+                        <div class="divider"><span>or sign up with</span></div>
+                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google"><i class="fab fa-google mr-2"></i>Sign up with Google</a>
+                        <div class="auth-footer"><p>Already have an account? <a href="/signin">Sign in</a></p></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock body %}
+{% endblock %}
 
 {% block scripts %}
-<script>
-    gsap.from('.auth-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
-</script>
-{% endblock scripts %}
+<script>gsap.from('.auth-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });</script>
+{% endblock %}

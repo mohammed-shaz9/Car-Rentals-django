@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}Sign In{% endblock title %}
+{% block title %}Sign In{% endblock %}
 
 {% block body %}
 <div class="auth-section">
-    {% include 'messages.html' %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5">
@@ -16,42 +14,24 @@
                         <p>Sign in to your account</p>
                     </div>
                     <div class="auth-body">
-                        <form method="post" action="/signin">
+                        <form method="post">
                             {% csrf_token %}
-                            <div class="form-group">
-                                <label><i class="fas fa-user mr-2"></i>Username</label>
-                                <input type="text" class="form-control modern-input" id="loginusername" name="loginusername" placeholder="Enter your username" required>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fas fa-lock mr-2"></i>Password</label>
-                                <input type="password" class="form-control modern-input" id="loginpassword" name="loginpassword" placeholder="Enter your password" required>
-                            </div>
-                            <button type="submit" class="btn-auth">
-                                <i class="fas fa-sign-in-alt mr-2"></i>Sign In
-                            </button>
+                            {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors.0 }}{{ form.errors.username.as_text }}</div>{% endif %}
+                            <div class="form-group"><label><i class="fas fa-user mr-2"></i>Username</label>{{ form.username }}</div>
+                            <div class="form-group"><label><i class="fas fa-lock mr-2"></i>Password</label>{{ form.password }}</div>
+                            <button type="submit" class="btn-auth"><i class="fas fa-sign-in-alt mr-2"></i>Sign In</button>
                         </form>
-
-                        <div class="divider">
-                            <span>or continue with</span>
-                        </div>
-
-                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google">
-                            <i class="fab fa-google mr-2"></i>Sign in with Google
-                        </a>
-
-                        <div class="auth-footer">
-                            <p>Don't have an account? <a href="/register">Create one</a></p>
-                        </div>
+                        <div class="divider"><span>or continue with</span></div>
+                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google"><i class="fab fa-google mr-2"></i>Sign in with Google</a>
+                        <div class="auth-footer"><p>Don't have an account? <a href="/register">Create one</a></p></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock body %}
+{% endblock %}
 
 {% block scripts %}
-<script>
-    gsap.from('.auth-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
-</script>
-{% endblock scripts %}
+<script>gsap.from('.auth-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });</script>
+{% endblock %}

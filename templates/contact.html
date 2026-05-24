@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}Contact Us{% endblock title %}
+{% block title %}Contact Us{% endblock %}
 
 {% block body %}
 <div class="contact-section">
-    {% include 'messages.html' %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -15,43 +13,21 @@
                             <h3>Get in Touch</h3>
                             <p>Have questions? We'd love to hear from you.</p>
                             <div class="contact-details mt-4">
-                                <div class="contact-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Hyderabad, Telangana, India</span>
-                                </div>
-                                <div class="contact-item">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>carrentals047@gmail.com</span>
-                                </div>
-                                <div class="contact-item">
-                                    <i class="fas fa-phone"></i>
-                                    <span>+91 98765 43210</span>
-                                </div>
-                                <div class="contact-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span>Mon - Sun: 9 AM - 9 PM</span>
-                                </div>
+                                <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Hyderabad, Telangana, India</span></div>
+                                <div class="contact-item"><i class="fas fa-envelope"></i><span>hello@novafleet.in</span></div>
+                                <div class="contact-item"><i class="fas fa-phone"></i><span>+91 98765 43210</span></div>
+                                <div class="contact-item"><i class="fas fa-clock"></i><span>Mon - Sun: 6 AM - 10 PM</span></div>
                             </div>
                         </div>
                         <div class="col-lg-7 contact-form-col">
                             <h3>Send Message</h3>
-                            <form method="post" action="/contact">
+                            <form method="post">
                                 {% csrf_token %}
-                                <div class="form-group">
-                                    <input type="text" class="form-control modern-input" id="contactname" name="contactname" placeholder="Your Name" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control modern-input" id="contactemail" name="contactemail" placeholder="Your Email" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="tel" class="form-control modern-input" id="contactphone" name="contactphone" placeholder="Your Phone Number">
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control modern-input" id="contactmsg" name="contactmsg" rows="4" placeholder="Your Message" required></textarea>
-                                </div>
-                                <button type="submit" class="btn-auth">
-                                    <i class="fas fa-paper-plane mr-2"></i>Send Message
-                                </button>
+                                {% include 'field.html' with field=form.name icon='user' %}
+                                {% include 'field.html' with field=form.email icon='envelope' %}
+                                {% include 'field.html' with field=form.phone_number icon='phone' %}
+                                <div class="form-group"><label><i class="fas fa-comment mr-2"></i>Message</label>{{ form.message }}</div>
+                                <button type="submit" class="btn-auth"><i class="fas fa-paper-plane mr-2"></i>Send Message</button>
                             </form>
                         </div>
                     </div>
@@ -60,10 +36,8 @@
         </div>
     </div>
 </div>
-{% endblock body %}
+{% endblock %}
 
 {% block scripts %}
-<script>
-    gsap.from('.contact-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
-</script>
-{% endblock scripts %}
+<script>gsap.from('.contact-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });</script>
+{% endblock %}

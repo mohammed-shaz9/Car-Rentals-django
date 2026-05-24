@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static humanize %}
+{% block title %}{{ car.car_name }}{% endblock %}
+
+{% block body %}
+<section class="detail-hero" style="background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%); min-height: 100vh; padding-top: 100px;">
+  <div class="container">
+    <div class="row align-items-center min-vh-70">
+      <div class="col-lg-7 mb-5">
+        <div class="car-3d-container" style="perspective: 1200px;">
+          <div class="car-3d-card" style="transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div class="car-3d-inner" style="border-radius: 20px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.6);">
+              <img src="{{ car.image.url }}" alt="{{ car.car_name }}" class="img-fluid w-100" style="height: 400px; object-fit: cover; transition: transform 0.5s;">
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <small style="color: #666;">Hover or tilt to rotate in 3D</small>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <span class="badge badge-warning px-3 py-2 mb-3">{{ car.get_category_display }}</span>
+        <h1 class="display-4 text-white font-weight-bold">{{ car.car_name }}</h1>
+        <p class="text-muted lead">{{ car.car_desc }}</p>
+        <div class="d-flex align-items-baseline my-4">
+          <span class="display-3 text-warning font-weight-bold">₹{{ car.price|intcomma }}</span>
+          <span class="text-muted ml-2">/ day</span>
+        </div>
+        <div class="row text-center mb-4">
+          <div class="col-4 border-right border-secondary">
+            <i class="fas fa-users text-warning fa-2x mb-2"></i>
+            <p class="text-white mb-0 small">{{ car.seating_capacity }} Seats</p>
+          </div>
+          <div class="col-4 border-right border-secondary">
+            <i class="fas fa-oil-can text-warning fa-2x mb-2"></i>
+            <p class="text-white mb-0 small">{{ car.fuel_type }}</p>
+          </div>
+          <div class="col-4">
+            <i class="fas fa-cogs text-warning fa-2x mb-2"></i>
+            <p class="text-white mb-0 small">{{ car.get_transmission_display }}</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="/bill?car_name={{ car.car_name }}" class="btn btn-warning btn-lg flex-grow-1 mr-2 font-weight-bold">
+            <i class="fas fa-calendar-check mr-2"></i>Book Now
+          </a>
+          <a href="/cars" class="btn btn-outline-light btn-lg flex-grow-1">
+            <i class="fas fa-arrow-left mr-2"></i>Back
+          </a>
+        </div>
+      </div>
+    </div>
+    {% if similar %}
+    <hr class="bg-secondary my-5">
+    <h2 class="text-white mb-4">Similar Vehicles</h2>
+    <div class="row">
+      {% for s in similar %}
+      <div class="col-md-4 mb-4">
+        <div class="car-card">
+          <div class="car-image">
+            <img src="{{ s.image.url }}" alt="{{ s.car_name }}">
+            <div class="car-overlay">
+              <a href="/car/{{ s.id }}/" class="btn-rent">View <i class="fas fa-arrow-right ml-2"></i></a>
+            </div>
+          </div>
+          <div class="car-details">
+            <h3>{{ s.car_name }}</h3>
+            <p>{{ s.car_desc|truncatechars:60 }}</p>
+            <div class="car-price"><span class="price">₹{{ s.price|intcomma }}</span><span class="per-day">/ day</span></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+  const container = document.querySelector('.car-3d-container');
+  const card = document.querySelector('.car-3d-card');
+  if (!container || !card) return;
+  container.addEventListener('mousemove', function(e) {
+    const rect = container.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const rotateY = (x - 0.5) * 30;
+    const rotateX = (0.5 - y) * 30;
+    card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale3d(1.02, 1.02, 1.02)`;
+  });
+  container.addEventListener('mouseleave', function() {
+    card.style.transform = 'rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
+  });
+  gsap.from('.detail-hero .col-lg-5 > *', { duration: 0.8, y: 40, opacity: 0, stagger: 0.1, ease: 'power3.out' });
+}());
+</script>
+{% endblock %}

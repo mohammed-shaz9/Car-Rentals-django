@@ -1,0 +1,5 @@
+<div class="form-group">
+  <label><i class="fas fa-{{ icon }} mr-2"></i>{{ field.label }}</label>
+  {{ field }}
+  {% for err in field.errors %}<small class="text-danger">{{ err }}</small>{% endfor %}
+</div>

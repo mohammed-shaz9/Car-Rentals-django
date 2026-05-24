@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Book a Car{% endblock title %}
-{% load static %}
+{% block title %}Book a Car{% endblock %}
+{% load static humanize %}
 
 {% block body %}
 <div class="booking-section">
@@ -9,39 +9,39 @@
             <div class="col-lg-10">
                 <div class="booking-card">
                     <h2 class="booking-title text-center">Complete Your Booking</h2>
-                    <form method="post" action="/bill" onsubmit="return validateForm()">
+                    <form method="post" onsubmit="return validateForm()">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-user mr-2"></i>Full Name</label>
-                                    <input type="text" class="form-control modern-input" id="billname" name="billname" value="{{ request.user.get_full_name }}" required>
+                                    {{ form.name }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-envelope mr-2"></i>Email</label>
-                                    <input type="email" class="form-control modern-input" id="billemail" name="billemail" value="{{ request.user.email }}" required>
+                                    {{ form.email }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><i class="fas fa-phone mr-2"></i>Phone Number</label>
-                                    <input type="tel" class="form-control modern-input" id="billphone" name="billphone" value="{{ user_profile.phone|default:'' }}" required>
+                                    <label><i class="fas fa-phone mr-2"></i>Phone</label>
+                                    {{ form.phone }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-city mr-2"></i>City</label>
-                                    <input type="text" class="form-control modern-input" id="billcity" name="billcity" value="{{ user_profile.city|default:'' }}" required>
+                                    {{ form.city }}
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-map-marker-alt mr-2"></i>Address</label>
-                            <input type="text" class="form-control modern-input" id="billaddress" name="billaddress" value="{{ user_profile.address|default:'' }}" required>
+                            {{ form.address }}
                         </div>
                         <hr class="divider-light">
                         <h4 class="mb-3"><i class="fas fa-car mr-2"></i>Car Selection</h4>
@@ -49,26 +49,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Select Car</label>
-                                    <select id="car_id" name="car_id" class="form-control modern-input" onchange="updateCarPrice()" required>
-                                        <option value="">Choose a car...</option>
-                                        {% for car in cars %}
-                                        <option value="{{ car.id }}" data-price="{{ car.price }}" data-name="{{ car.car_name }}" {% if selected_car and selected_car.id == car.id %}selected{% endif %}>
-                                            {{ car.car_name }} - ₹{{ car.price }}/day
-                                        </option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ form.car }}
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Days</label>
-                                    <input type="number" class="form-control modern-input" id="dayss" name="dayss" min="1" max="30" oninput="calculateTotal()" required>
+                                    {{ form.days_for_rent }}
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Pickup Date</label>
-                                    <input type="date" class="form-control modern-input" id="date" name="date" min="{% now 'Y-m-d' %}" required>
+                                    {{ form.pickup_date }}
                                 </div>
                             </div>
                         </div>
@@ -76,26 +69,25 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin mr-2"></i>From Location</label>
-                                    <input type="text" class="form-control modern-input" id="fl" name="fl" placeholder="e.g., Hyderabad Airport" required>
+                                    {{ form.loc_from }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin mr-2"></i>To Location</label>
-                                    <input type="text" class="form-control modern-input" id="tl" name="tl" placeholder="e.g., Hitech City" required>
+                                    {{ form.loc_to }}
                                 </div>
                             </div>
+                        </div>
+                        <div class="text-center my-3">
+                            <div id="discountInfo" style="color: #28a745; font-weight: 600;"></div>
                         </div>
                         <div class="total-section text-center" id="totalSection" style="display:none;">
                             <h3>Total: <span id="totalAmount">₹0</span></h3>
                         </div>
                         <div class="text-center mt-4">
-                            <button type="button" class="btn-outline mr-3" onclick="calculateTotal()">
-                                <i class="fas fa-calculator mr-2"></i>Calculate Total
-                            </button>
-                            <button type="submit" class="btn-auth">
-                                <i class="fas fa-check-circle mr-2"></i>Confirm Booking
-                            </button>
+                            <button type="button" class="btn-outline mr-3" onclick="calculateTotal()"><i class="fas fa-calculator mr-2"></i>Calculate</button>
+                            <button type="submit" class="btn-auth"><i class="fas fa-check-circle mr-2"></i>Confirm Booking</button>
                         </div>
                     </form>
                 </div>
@@ -103,55 +95,34 @@
         </div>
     </div>
 </div>
-{% endblock body %}
+{% endblock %}
 
 {% block scripts %}
 <script>
-function updateCarPrice() {
-    calculateTotal();
-}
-
+function updateCarPrice() { calculateTotal(); }
 function calculateTotal() {
-    const select = document.getElementById('car_id');
-    const days = document.getElementById('dayss').value;
-    const selectedOption = select.options[select.selectedIndex];
-
-    if (select.value && days) {
-        const price = parseInt(selectedOption.dataset.price);
-        const total = price * parseInt(days);
-        document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString('en-IN');
-        document.getElementById('totalSection').style.display = 'block';
-    }
+    const select = document.getElementById('{{ form.car.id_for_label }}');
+    const days = document.getElementById('{{ form.days_for_rent.id_for_label }}').value;
+    if (!select.value || !days) return;
+    const price = parseInt(select.options[select.selectedIndex].dataset.price);
+    const d = parseInt(days);
+    let discount = 0;
+    if (d >= 7) discount = 10;
+    else if (d >= 3) discount = 5;
+    const total = price * d * (1 - discount / 100);
+    document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString('en-IN');
+    document.getElementById('totalSection').style.display = 'block';
+    document.getElementById('discountInfo').textContent = discount > 0 ? discount + '% discount applied!' : 'Book 3+ days for discount!';
 }
-
-function validateForm() {
-    const requiredFields = ['billname', 'billemail', 'billphone', 'billaddress', 'billcity', 'car_id', 'dayss', 'date', 'fl', 'tl'];
-    for (let id of requiredFields) {
-        const field = document.getElementById(id);
-        if (!field.value.trim()) {
-            alert('Please fill in all required fields.');
-            field.focus();
-            return false;
-        }
-    }
-    return confirm('Confirm your booking?');
-}
-
+function validateForm() { return confirm('Confirm your booking?'); }
 (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const carName = urlParams.get('car_name');
-    if (carName) {
-        const select = document.getElementById('car_id');
-        for (let opt of select.options) {
-            if (opt.dataset.name === carName) {
-                opt.selected = true;
-                calculateTotal();
-                break;
-            }
-        }
+    const p = new URLSearchParams(window.location.search), cn = p.get('car_name');
+    if (cn) {
+        const s = document.getElementById('{{ form.car.id_for_label }}');
+        for (let o of s.options) { if (o.text.startsWith(cn)) { o.selected = true; calculateTotal(); break } }
     }
+    document.getElementById('{{ form.pickup_date.id_for_label }}').min = new Date().toISOString().split('T')[0];
 })();
-
 gsap.from('.booking-card', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
 </script>
-{% endblock scripts %}
+{% endblock %}

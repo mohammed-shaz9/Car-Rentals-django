@@ -33,16 +33,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/vehicles"><i class="fas fa-car-side"></i> Vehicles</a>
                     </li>
-                    {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bookings"><i class="fas fa-receipt"></i> My Bookings</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
                             <i class="fas fa-user-circle"></i> {{ request.user.get_full_name|default:request.user.username }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/bill"><i class="fas fa-receipt"></i> My Bookings</a>
+                            <a class="dropdown-item" href="/profile"><i class="fas fa-id-card"></i> Profile</a>
+                            <a class="dropdown-item" href="/bookings"><i class="fas fa-receipt"></i> My Bookings</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/signout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
